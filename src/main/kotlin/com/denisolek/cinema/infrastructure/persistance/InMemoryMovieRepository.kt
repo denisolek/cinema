@@ -23,5 +23,9 @@ class InMemoryMovieRepository : MovieRepository {
         return movies[movieId]?.right() ?: NotFound(movieId.value).left()
     }
 
+    override fun findAll(): Either<IOError, List<Movie>> {
+        return movies.values.toList().right()
+    }
+
     fun clear() = movies.clear()
 }

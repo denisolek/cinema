@@ -8,4 +8,5 @@ import com.denisolek.cinema.domain.shared.MovieId
 interface MovieRepository {
     fun save(movie: Movie): Either<IOError, Movie>
     fun find(movieId: MovieId): Either<IOError, Movie>
+    fun findAll(): Either<IOError, List<Movie>>
 }

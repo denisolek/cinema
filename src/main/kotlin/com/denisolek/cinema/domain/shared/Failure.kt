@@ -17,12 +17,12 @@ sealed class ValidationError(reason: String) : Failure(reason) {
         class InvalidReleaseDate(releaseDate: String) : ReleaseDateValidationError("Can't parse $releaseDate")
     }
 
-    sealed class RuntimeValidationError(reason: String) : Failure(reason) {
+    sealed class RuntimeValidationError(reason: String) : ValidationError(reason) {
         class TimeUnitNotSupported(unit: String) : RuntimeValidationError("Time unit $unit is not supported")
         class InvalidRuntime(runtime: String) : RuntimeValidationError("Can't parse $runtime")
     }
 
-    sealed class RatingValidationError(reason: String) : Failure(reason) {
+    sealed class RatingValidationError(reason: String) : ValidationError(reason) {
         class RatingOutOfRange(rating: String) : RatingValidationError("Rating $rating can't be out of range 0-10")
         class NegativeVotes(votes: String) : RatingValidationError("Votes $votes can't be negative")
         class InvalidRating(source: RatingSource, rating: String, votes: String) : RatingValidationError("Can't parse $source, $rating, $votes")

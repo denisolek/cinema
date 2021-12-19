@@ -23,4 +23,9 @@ class MovieFacade(
             eventPublisher.publish(movieLoaded(it))
         }
     }
+
+    fun getListingInfos(): Either<Failure, List<MovieListingInfo>> = eager {
+        val movies = repository.findAll().bind()
+        movies.map { MovieListingInfo(it.id.value, it.title, it.description) }
+    }
 }
