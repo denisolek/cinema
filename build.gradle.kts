@@ -11,6 +11,7 @@ val ktorClientVersion: String by project
 val coroutinesVersion: String by project
 val kotlinLogging: String by project
 val wiremockVersion: String by project
+val kotestSpringVersion: String by project
 
 plugins {
     id("org.springframework.boot")
@@ -42,8 +43,9 @@ dependencies {
     testImplementation("org.springframework.boot:spring-boot-starter-test:$springBootVersion")
     testImplementation("io.kotest:kotest-runner-junit5:$kotestVersion")
     testImplementation("io.kotest.extensions:kotest-assertions-arrow:$kotestArrowVersion")
+    testImplementation("io.kotest.extensions:kotest-extensions-spring:$kotestSpringVersion")
     testImplementation("io.mockk:mockk:$mockkVersion")
-    testImplementation("com.github.tomakehurst:wiremock:$wiremockVersion")
+    testImplementation("com.github.tomakehurst:wiremock-jre8:$wiremockVersion")
 }
 
 tasks.withType<KotlinCompile> {

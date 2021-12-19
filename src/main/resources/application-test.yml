@@ -1,0 +1,8 @@
+setup:
+  availableMovies: tt0232500
+
+clients:
+  omdb:
+    baseUrl: localhost
+    basePort: 5000
+    apiKey: someApiKey

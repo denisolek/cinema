@@ -1,4 +1,4 @@
-package com.denisolek.cinema.http
+package com.denisolek.cinema.utils
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.github.tomakehurst.wiremock.WireMockServer

@@ -1,5 +1,6 @@
 package com.denisolek.cinema.http
 
+import com.denisolek.cinema.utils.HttpStub
 import com.github.tomakehurst.wiremock.client.WireMock.*
 import org.springframework.http.HttpHeaders.CONTENT_TYPE
 import org.springframework.http.HttpStatus
