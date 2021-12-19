@@ -16,7 +16,7 @@ class InMemoryMovieRepository : MovieRepository {
 
     override fun save(movie: Movie): Either<IOError, Movie> {
         movies[movie.id] = movie
-        return movie.right().also { log.info { "Saved $it" } }
+        return movie.right().also { log.info { "Saved $movie" } }
     }
 
     override fun find(movieId: MovieId): Either<IOError, Movie> {
