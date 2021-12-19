@@ -7,6 +7,9 @@ sealed class Failure(val reason: String)
 sealed class IOError(reason: String) : Failure(reason) {
     class NotFound(resource: String) : IOError("Resource $resource not found")
     class Unavailable(resource: String) : IOError("Resource $resource unavailable")
+    class Unauthorized(resource: String) : IOError("Unauthorized access to $resource")
+    class ClientFailure(resource: String) : IOError("Requesting $resource failed with client error")
+    class UnknownFailure(resource: String) : IOError("Something went wrong requesting $resource")
 }
 
 sealed class ValidationError(reason: String) : Failure(reason) {

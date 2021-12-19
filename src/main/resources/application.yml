@@ -1,2 +1,6 @@
 setup:
   availableMovies: tt0232500, tt0322259, tt0463985, tt1013752, tt1596343, tt1905041, tt2820852, tt4630562, tt5433138
+
+clients:
+  omdb:
+    baseUrl: www.omdbapi.com
