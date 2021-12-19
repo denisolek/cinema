@@ -9,6 +9,7 @@ val kotestArrowVersion: String by project
 val mockkVersion: String by project
 val ktorClientVersion: String by project
 val coroutinesVersion: String by project
+val kotlinLogging: String by project
 
 plugins {
     id("org.springframework.boot")
@@ -36,6 +37,7 @@ dependencies {
     implementation("io.ktor:ktor-client-cio:$ktorClientVersion")
     implementation("io.ktor:ktor-client-jackson:$ktorClientVersion")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutinesVersion")
+    implementation("io.github.microutils:kotlin-logging-jvm:$kotlinLogging")
     testImplementation("org.springframework.boot:spring-boot-starter-test:$springBootVersion")
     testImplementation("io.kotest:kotest-runner-junit5:$kotestVersion")
     testImplementation("io.kotest.extensions:kotest-assertions-arrow:$kotestArrowVersion")
