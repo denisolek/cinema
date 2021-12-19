@@ -60,12 +60,12 @@ object MovieDefaults {
         movieId = movieId.value,
         title = movieTitle,
         description = movieDescription,
-        releaseDate = movieReleaseDate,
+        releaseDate = releaseDate(movieReleaseDate).rightValue.value,
         awards = movieAwards,
         ratings = listOf(
-            MovieLoadedRating(movieLoadedImdb, movieImdbRating, movieImdbVotes),
-            MovieLoadedRating(movieLoadedInternal, movieInternalRating, movieInternalVotes)
+            MovieLoadedRating(imdbRating(movieImdbRating, movieImdbVotes).rightValue),
+            MovieLoadedRating(internalRating(movieInternalRating, movieInternalVotes).rightValue)
         ),
-        runtime = movieRuntime
+        runtime = runtime(movieRuntime).rightValue.value
     )
 }
