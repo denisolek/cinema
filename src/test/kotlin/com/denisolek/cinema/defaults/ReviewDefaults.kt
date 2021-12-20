@@ -8,7 +8,6 @@ import com.denisolek.cinema.domain.review.model.Review
 import com.denisolek.cinema.domain.review.model.ReviewAdded
 import com.denisolek.cinema.domain.review.model.ReviewUpdated
 import com.denisolek.cinema.domain.review.model.Stars.Companion.stars
-import com.denisolek.cinema.domain.review.model.SummedReviewChanged
 import com.denisolek.cinema.domain.shared.ReviewId
 import com.denisolek.cinema.utils.rightValue
 import java.time.Instant.now
@@ -19,7 +18,6 @@ object ReviewDefaults {
     val now = now()
     val stars = stars(4)
     val updatedStars = stars(1)
-    val summedStars = 4.2
 
     val defaultAddReview = AddReview(
         authentication = moviegoer,
@@ -47,11 +45,5 @@ object ReviewDefaults {
         reviewId = reviewId.value,
         date = now,
         stars = updatedStars.rightValue.value,
-    )
-
-    val defaultSummedReviewChanged = SummedReviewChanged(
-        movieId = movieId.value,
-        date = now,
-        stars = summedStars
     )
 }

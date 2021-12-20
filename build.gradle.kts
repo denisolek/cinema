@@ -12,6 +12,7 @@ val coroutinesVersion: String by project
 val kotlinLogging: String by project
 val wiremockVersion: String by project
 val kotestSpringVersion: String by project
+val apacheCommons: String by project
 
 plugins {
     id("org.springframework.boot")
@@ -46,6 +47,7 @@ dependencies {
     testImplementation("io.kotest.extensions:kotest-extensions-spring:$kotestSpringVersion")
     testImplementation("io.mockk:mockk:$mockkVersion")
     testImplementation("com.github.tomakehurst:wiremock-jre8:$wiremockVersion")
+    testImplementation("org.apache.commons:commons-lang3:$apacheCommons")
 }
 
 tasks.withType<KotlinCompile> {

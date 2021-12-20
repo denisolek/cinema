@@ -39,5 +39,6 @@ data class SummedReviewChanged(
     override val id: UUID = randomUUID(),
     val movieId: String,
     val date: Instant,
-    val stars: Double
+    val stars: Double,
+    val votes: Int
 ) : DomainEvent

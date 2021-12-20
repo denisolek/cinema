@@ -1,21 +1,20 @@
 package com.denisolek.cinema.review
 
+import arrow.core.left
 import arrow.core.right
 import com.denisolek.cinema.defaults.AuthDefaults.owner
 import com.denisolek.cinema.defaults.ReviewDefaults.defaultAddReview
 import com.denisolek.cinema.defaults.ReviewDefaults.defaultReview
 import com.denisolek.cinema.defaults.ReviewDefaults.defaultReviewAdded
 import com.denisolek.cinema.defaults.ReviewDefaults.defaultReviewUpdated
-import com.denisolek.cinema.defaults.ReviewDefaults.defaultSummedReviewChanged
 import com.denisolek.cinema.defaults.ReviewDefaults.updatedStars
 import com.denisolek.cinema.domain.movie.MovieFacade
 import com.denisolek.cinema.domain.review.ReviewFacade
 import com.denisolek.cinema.domain.review.model.Review
 import com.denisolek.cinema.domain.review.model.ReviewAdded
 import com.denisolek.cinema.domain.review.model.ReviewUpdated
-import com.denisolek.cinema.domain.review.model.SummedReviewChanged
 import com.denisolek.cinema.domain.shared.AuthenticationError.Forbidden
-import com.denisolek.cinema.domain.shared.IOError.ClientFailure
+import com.denisolek.cinema.domain.shared.IOError.NotFound
 import com.denisolek.cinema.domain.shared.ReviewId
 import com.denisolek.cinema.domain.shared.ValidationError.StarsValidationError.StarsOutOfRange
 import com.denisolek.cinema.domain.shared.event.DomainEvent
@@ -66,21 +65,14 @@ class ReviewSpec : DescribeSpec({
                 .shouldBeRight()
                 .shouldBeEqualToIgnoringFields(defaultReview.copy(id = reviewId), Review::date)
         }
-
-        xit("should trigger summed review change") {
-            val summedReviewChange = slot<List<SummedReviewChanged>>()
-            every { eventPublisher.publish(capture(summedReviewChange)) } answers { }
-            facade.addReview(defaultAddReview)
-            summedReviewChange.captured.first().shouldBeEqualToIgnoringFields(defaultSummedReviewChanged, SummedReviewChanged::date)
-        }
     }
 
     describe("Can't review a movie") {
         it("when it doesn't exist") {
-            every { movieFacade.movieExists(any()) } answers { false.right() }
+            every { movieFacade.movieExists(any()) } answers { NotFound("").left() }
             facade.addReview(defaultAddReview)
                 .shouldBeLeft()
-                .shouldBeTypeOf<ClientFailure>()
+                .shouldBeTypeOf<NotFound>()
         }
         every { movieFacade.movieExists(any()) } answers { true.right() }
         it("if given stars are out of range") {

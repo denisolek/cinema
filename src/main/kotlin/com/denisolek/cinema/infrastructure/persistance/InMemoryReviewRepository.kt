@@ -39,5 +39,9 @@ class InMemoryReviewRepository : ReviewRepository {
         return review.right().also { log.info { "Saved $review" } }
     }
 
+    override fun findAll(movieId: MovieId): Either<IOError, List<Review>> {
+        return reviews.values.filter { it.movieId == movieId }.right()
+    }
+
     fun clear() = reviews.clear()
 }
