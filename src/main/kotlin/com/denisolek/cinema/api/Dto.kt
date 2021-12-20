@@ -12,3 +12,5 @@ data class ReviewRequest(val stars: Int)
 data class ShowInfoResponse(val shows: List<ShowInfo>)
 
 data class AddShowRequest(val movieId: String, val start: Instant, val price: BigDecimal)
+
+data class UpdateShowRequest(val start: Instant, val price: BigDecimal)

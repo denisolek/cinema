@@ -23,7 +23,18 @@ class ShowFacade(
         eventPublisher.publish(result.events)
     }
 
-    fun updateShow(): Either<Failure, Unit> = TODO()
+    fun updateShow(command: UpdateShow): Either<Failure, Unit> = eager {
+        command.authentication.sufficientFor(OWNER).bind()
+        val existingShow = repository.find(command.showId).bind()
+        val runtimeInfo = movieFacade.getRuntimeInfo(existingShow.movieId).bind()
+        repository.notContainsOverlappingShow(command.start, command.start.plus(runtimeInfo.runtime)).bind()
+        val result = existingShow.update(command, runtimeInfo.runtime).bind()
+        if (result.events.isNotEmpty()) {
+            repository.save(result.show)
+            eventPublisher.publish(result.events)
+        }
+    }
+
     fun removeShow(): Either<Failure, Unit> = TODO()
 
     fun showInfos(): Either<Failure, List<ShowInfo>> = eager {
