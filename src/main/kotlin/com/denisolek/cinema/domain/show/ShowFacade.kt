@@ -8,6 +8,7 @@ import com.denisolek.cinema.domain.shared.Failure
 import com.denisolek.cinema.domain.shared.event.DomainEventPublisher
 import com.denisolek.cinema.domain.show.infrastructure.ShowRepository
 import com.denisolek.cinema.domain.show.model.Show.Companion.show
+import com.denisolek.cinema.domain.show.model.ShowRemoved
 
 class ShowFacade(
     private val repository: ShowRepository,
@@ -35,7 +36,12 @@ class ShowFacade(
         }
     }
 
-    fun removeShow(): Either<Failure, Unit> = TODO()
+    fun removeShow(command: RemoveShow): Either<Failure, Unit> = eager {
+        command.authentication.sufficientFor(OWNER).bind()
+        val existingShow = repository.find(command.showId).bind()
+        repository.remove(existingShow.id)
+        eventPublisher.publish(ShowRemoved(existingShow.id))
+    }
 
     fun showInfos(): Either<Failure, List<ShowInfo>> = eager {
         val shows = repository.findAll().bind()

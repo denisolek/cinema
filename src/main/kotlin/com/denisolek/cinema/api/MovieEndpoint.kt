@@ -9,9 +9,10 @@ import com.denisolek.cinema.domain.shared.Failure
 import com.denisolek.cinema.domain.shared.MovieId
 import com.denisolek.cinema.infrastructure.ApplicationProperties
 import org.springframework.http.HttpHeaders.AUTHORIZATION
+import org.springframework.http.HttpStatus.OK
 import org.springframework.http.MediaType.APPLICATION_JSON_VALUE
-import org.springframework.http.ResponseEntity
 import org.springframework.http.ResponseEntity.ok
+import org.springframework.http.ResponseEntity.status
 import org.springframework.web.bind.annotation.*
 
 @RestController
@@ -29,13 +30,13 @@ class MovieEndpoint(
     )
 
     @PostMapping
-    fun load(@RequestHeader(AUTHORIZATION) authorization: String): ResponseEntity<Any> = eager<Failure, Unit> {
+    fun load(@RequestHeader(AUTHORIZATION) authorization: String) = eager<Failure, Unit> {
         val authentication = authenticationFacade.authenticate(authorization).bind()
         properties.availableMovies
             .map { MovieId(it) }
             .let { movieFacade.loadMovies(authentication, it) }.bind()
     }.fold(
-        ifRight = { ok().build() },
+        ifRight = { status(OK).build() },
         ifLeft = { it.mapToResponseFailure() }
     )
 
@@ -44,11 +45,11 @@ class MovieEndpoint(
         @RequestHeader(AUTHORIZATION) authorization: String,
         @PathVariable movieId: String,
         @RequestBody body: ReviewRequest
-    ): ResponseEntity<Any> = eager<Failure, Unit> {
+    ) = eager<Failure, Unit> {
         val authentication = authenticationFacade.authenticate(authorization).bind()
         reviewFacade.addReview(AddReview(authentication, MovieId(movieId), body.stars)).bind()
     }.fold(
-        ifRight = { ok().build() },
+        ifRight = { status(OK).build() },
         ifLeft = { it.mapToResponseFailure() }
     )
 }

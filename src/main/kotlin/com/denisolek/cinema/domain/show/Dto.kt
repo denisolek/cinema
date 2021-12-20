@@ -22,6 +22,11 @@ data class UpdateShow(
     val price: BigDecimal
 )
 
+data class RemoveShow(
+    val authentication: Authentication,
+    val showId: ShowId
+)
+
 data class ShowInfo(
     val id: UUID,
     val movieId: String,

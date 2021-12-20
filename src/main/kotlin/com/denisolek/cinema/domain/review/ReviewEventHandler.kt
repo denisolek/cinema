@@ -1,7 +1,7 @@
 package com.denisolek.cinema.domain.review
 
 import arrow.core.Either
-import arrow.core.computations.either
+import arrow.core.computations.either.eager
 import com.denisolek.cinema.domain.review.infrastructure.ReviewRepository
 import com.denisolek.cinema.domain.review.model.ReviewAdded
 import com.denisolek.cinema.domain.review.model.SummedReviewChanged
@@ -16,7 +16,7 @@ class ReviewEventHandler(
     private val repository: ReviewRepository,
     private val eventPublisher: DomainEventPublisher
 ) {
-    fun handle(event: ReviewAdded): Either<Failure, Unit> = either.eager {
+    fun handle(event: ReviewAdded): Either<Failure, Unit> = eager {
         val movieReviews = repository.findAll(MovieId(event.movieId)).bind()
         val rating = movieReviews
             .sumOf { it.stars.value }

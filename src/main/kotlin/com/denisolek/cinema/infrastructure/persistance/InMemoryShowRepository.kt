@@ -1,6 +1,7 @@
 package com.denisolek.cinema.infrastructure.persistance
 
 import arrow.core.Either
+import arrow.core.computations.either.eager
 import arrow.core.left
 import arrow.core.right
 import com.denisolek.cinema.domain.shared.IOError
@@ -39,6 +40,10 @@ class InMemoryShowRepository : ShowRepository {
 
     override fun find(showId: ShowId): Either<IOError, Show> {
         return shows[showId]?.right() ?: NotFound("${showId.value}").left()
+    }
+
+    override fun remove(showId: ShowId): Either<IOError, Unit> = eager {
+        shows.remove(showId)
     }
 }
 

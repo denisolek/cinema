@@ -11,4 +11,5 @@ interface ShowRepository {
     fun save(show: Show): Either<IOError, Show>
     fun findAll(): Either<IOError, List<Show>>
     fun find(showId: ShowId): Either<IOError, Show>
+    fun remove(showId: ShowId): Either<IOError, Unit>
 }
