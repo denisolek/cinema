@@ -9,6 +9,10 @@ import com.denisolek.cinema.domain.show.AddShow
 import com.denisolek.cinema.domain.show.RemoveShow
 import com.denisolek.cinema.domain.show.ShowFacade
 import com.denisolek.cinema.domain.show.UpdateShow
+import io.swagger.v3.oas.annotations.media.Content
+import io.swagger.v3.oas.annotations.media.Schema
+import io.swagger.v3.oas.annotations.responses.ApiResponse
+import io.swagger.v3.oas.annotations.responses.ApiResponses
 import org.springframework.http.HttpHeaders
 import org.springframework.http.HttpStatus.*
 import org.springframework.http.MediaType.APPLICATION_JSON_VALUE
@@ -23,13 +27,18 @@ class ShowEndpoint(
     private val authenticationFacade: AuthenticationFacade,
     private val showFacade: ShowFacade
 ) {
+
     @GetMapping
+    @ApiResponse(responseCode = "200", content = [Content(schema = Schema(implementation = ShowInfoResponse::class))])
     fun allShows() = showFacade.showInfos().fold(
         ifRight = { ok(ShowInfoResponse(it)) },
         ifLeft = { it.mapToResponseFailure() }
     )
 
     @PostMapping
+    @ApiResponses(
+        ApiResponse(responseCode = "201", description = "Show added"),
+        ApiResponse(responseCode = "404", description = "Movie not found"))
     fun addShow(
         @RequestHeader(HttpHeaders.AUTHORIZATION) authorization: String,
         @RequestBody body: AddShowRequest
@@ -42,6 +51,9 @@ class ShowEndpoint(
     )
 
     @PutMapping("/{showId}")
+    @ApiResponses(
+        ApiResponse(responseCode = "200", description = "Ok"),
+        ApiResponse(responseCode = "404", description = "Show not found"))
     fun updateShow(
         @RequestHeader(HttpHeaders.AUTHORIZATION) authorization: String,
         @PathVariable showId: UUID,
@@ -55,6 +67,9 @@ class ShowEndpoint(
     )
 
     @DeleteMapping("/{showId}")
+    @ApiResponses(
+        ApiResponse(responseCode = "204", description = "Removed"),
+        ApiResponse(responseCode = "404", description = "Show not found"))
     fun removeShow(
         @RequestHeader(HttpHeaders.AUTHORIZATION) authorization: String,
         @PathVariable showId: UUID

@@ -5,21 +5,29 @@ import com.denisolek.cinema.domain.movie.MovieFacade
 import com.denisolek.cinema.domain.shared.MovieId
 import com.denisolek.cinema.infrastructure.ApplicationProperties
 import mu.KotlinLogging.logger
+import org.springframework.context.annotation.Configuration
 import org.springframework.context.event.ContextRefreshedEvent
 import org.springframework.context.event.EventListener
-import org.springframework.stereotype.Component
+import org.springframework.scheduling.annotation.EnableScheduling
+import org.springframework.scheduling.annotation.Scheduled
 
-@Component
-class TaskScheduler(private val properties: ApplicationProperties, val movieFacade: MovieFacade) {
+@Configuration
+@EnableScheduling
+class Scheduler(private val properties: ApplicationProperties, val movieFacade: MovieFacade) {
     private val log = logger {}
 
     @EventListener
     fun onStartup(event: ContextRefreshedEvent) {
-        if (properties.loadMoviesOnStartup) loadMovies()
+        if (properties.autoLoadMovies) loadMovies()
+    }
+
+    @Scheduled(cron = "0 0 * * * *")
+    fun reloadMovies() {
+        if (properties.autoLoadMovies) loadMovies()
     }
 
     private fun loadMovies() {
-        log.info { "Loading ${properties.availableMovies} movies on application startup" }
+        log.info { "Loading ${properties.availableMovies} movies" }
         properties.availableMovies
             .map { MovieId(it) }
             .let { movieFacade.loadMovies(applicationAuth, it) }

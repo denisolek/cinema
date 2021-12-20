@@ -6,13 +6,14 @@ val jacksonVersion: String by project
 val arrowVersion: String by project
 val kotestVersion: String by project
 val kotestArrowVersion: String by project
+val kotestSpringVersion: String by project
 val mockkVersion: String by project
 val ktorClientVersion: String by project
 val coroutinesVersion: String by project
 val kotlinLogging: String by project
 val wiremockVersion: String by project
-val kotestSpringVersion: String by project
 val apacheCommons: String by project
+val openApiVersion: String by project
 
 plugins {
     id("org.springframework.boot")
@@ -29,7 +30,7 @@ repositories {
 }
 
 dependencies {
-    implementation("org.springframework.boot:spring-boot-starter-webflux:$springBootVersion")
+    implementation("org.springframework.boot:spring-boot-starter-web:$springBootVersion")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin:$jacksonVersion")
     implementation("org.jetbrains.kotlin:kotlin-reflect:$kotlinVersion")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlinVersion")
@@ -41,6 +42,8 @@ dependencies {
     implementation("io.ktor:ktor-client-jackson:$ktorClientVersion")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutinesVersion")
     implementation("io.github.microutils:kotlin-logging-jvm:$kotlinLogging")
+    implementation("org.springdoc:springdoc-openapi-ui:$openApiVersion")
+    implementation("org.springdoc:springdoc-openapi-kotlin:$openApiVersion")
     testImplementation("org.springframework.boot:spring-boot-starter-test:$springBootVersion")
     testImplementation("io.kotest:kotest-runner-junit5:$kotestVersion")
     testImplementation("io.kotest.extensions:kotest-assertions-arrow:$kotestArrowVersion")

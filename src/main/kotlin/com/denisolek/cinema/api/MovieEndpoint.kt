@@ -8,6 +8,10 @@ import com.denisolek.cinema.domain.review.ReviewFacade
 import com.denisolek.cinema.domain.shared.Failure
 import com.denisolek.cinema.domain.shared.MovieId
 import com.denisolek.cinema.infrastructure.ApplicationProperties
+import io.swagger.v3.oas.annotations.media.Content
+import io.swagger.v3.oas.annotations.media.Schema
+import io.swagger.v3.oas.annotations.responses.ApiResponse
+import io.swagger.v3.oas.annotations.responses.ApiResponses
 import org.springframework.http.HttpHeaders.AUTHORIZATION
 import org.springframework.http.HttpStatus.OK
 import org.springframework.http.MediaType.APPLICATION_JSON_VALUE
@@ -23,7 +27,9 @@ class MovieEndpoint(
     private val reviewFacade: ReviewFacade,
     private val properties: ApplicationProperties
 ) {
+
     @GetMapping
+    @ApiResponse(responseCode = "200", content = [Content(schema = Schema(implementation = MovieListingResponse::class))])
     fun movieListing() = movieFacade.getListingInfos().fold(
         ifRight = { ok(MovieListingResponse(it)) },
         ifLeft = { it.mapToResponseFailure() }
@@ -41,6 +47,9 @@ class MovieEndpoint(
     )
 
     @PostMapping("/{movieId}/reviews")
+    @ApiResponses(
+        ApiResponse(responseCode = "201", description = "Review added"),
+        ApiResponse(responseCode = "404", description = "Movie not found"))
     fun review(
         @RequestHeader(AUTHORIZATION) authorization: String,
         @PathVariable movieId: String,

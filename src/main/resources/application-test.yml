@@ -1,4 +1,5 @@
 setup:
+  autoLoadMovies: false
   availableMovies: tt0232500
 
 clients:
