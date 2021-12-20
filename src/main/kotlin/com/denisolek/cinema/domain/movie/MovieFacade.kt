@@ -33,4 +33,6 @@ class MovieFacade(
     }
 
     fun movieExists(movieId: MovieId): Either<Failure, Boolean> = repository.find(movieId).map { true }
+
+    fun getRuntimeInfo(movieId: MovieId): Either<Failure, MovieRuntimeInfo> = repository.find(movieId).map { MovieRuntimeInfo(it.runtime.value) }
 }

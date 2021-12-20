@@ -1,5 +1,7 @@
 package com.denisolek.cinema.domain.movie
 
+import java.time.Duration
+
 data class MovieListingInfo(
     val id: String,
     val title: String,
@@ -15,4 +17,8 @@ data class MovieData(
     val imdbRating: String,
     val imdbVotes: String,
     val runtime: String
+)
+
+data class MovieRuntimeInfo(
+    val runtime: Duration
 )

@@ -1,7 +1,7 @@
 package com.denisolek.cinema.domain.review.model
 
 import arrow.core.Either
-import arrow.core.computations.either
+import arrow.core.computations.either.eager
 import com.denisolek.cinema.domain.review.AddReview
 import com.denisolek.cinema.domain.review.model.Stars.Companion.stars
 import com.denisolek.cinema.domain.shared.Failure
@@ -19,7 +19,7 @@ data class Review(
     val date: Instant,
     val stars: Stars,
 ) {
-    fun update(command: AddReview): Either<Failure, ReviewOperation> = either.eager {
+    fun update(command: AddReview): Either<Failure, ReviewOperation> = eager {
         val newStars = stars(command.stars).bind()
         if (stars.differsFrom(newStars)) {
             this@Review.copy(
@@ -32,16 +32,14 @@ data class Review(
     }
 
     companion object {
-        fun review(command: AddReview): Either<Failure, ReviewOperation> = either.eager {
+        fun review(command: AddReview): Either<Failure, ReviewOperation> = eager {
             Review(
                 id = ReviewId(),
                 movieId = command.movieId,
                 userId = command.authentication.id,
                 date = now(),
                 stars = stars(command.stars).bind()
-            ).let {
-                ReviewOperation(it, listOf(ReviewAdded(it)))
-            }
+            ).let { ReviewOperation(it, listOf(ReviewAdded(it))) }
         }
     }
 }

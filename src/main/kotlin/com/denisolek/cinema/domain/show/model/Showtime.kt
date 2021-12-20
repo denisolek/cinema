@@ -15,6 +15,10 @@ data class Showtime private constructor(
     val start: Instant,
     val duration: Duration
 ) {
+
+    val end: Instant
+        get() = start.plus(duration)
+
     companion object {
         private val log = logger {}
         private val allowedSlippage = ofSeconds(60)
