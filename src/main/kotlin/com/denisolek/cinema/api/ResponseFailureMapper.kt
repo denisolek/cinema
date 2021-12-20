@@ -23,5 +23,6 @@ fun Failure.mapToResponseFailure(): ResponseEntity<Any> = when (this) {
         is Unavailable -> SERVICE_UNAVAILABLE
         is ClientFailure -> BAD_REQUEST
         is UnknownFailure -> INTERNAL_SERVER_ERROR
+        is DataIntegrityViolation -> CONFLICT
     }
 }.let { statusCode -> status(statusCode).body("{\"reason\": \"$reason\"}") }

@@ -15,7 +15,7 @@ import io.kotest.matchers.types.shouldBeTypeOf
 import java.math.BigDecimal.valueOf
 
 class RatingSpec : DescribeSpec({
-    val correctRating = "6.3"
+    val correctRating = "6.8"
     val correctVotes = "314"
     val nonNumeric = listOf("a", ",", "0,a", "*43")
 
@@ -25,7 +25,7 @@ class RatingSpec : DescribeSpec({
                 .shouldBeRight()
                 .should {
                     it.source.shouldBe(IMDB)
-                    it.rating.shouldBe(valueOf(6.3))
+                    it.rating.shouldBe(valueOf(6.8))
                     it.votes.shouldBe(314L)
                 }
         }
@@ -35,7 +35,7 @@ class RatingSpec : DescribeSpec({
                 .shouldBeRight()
                 .should {
                     it.source.shouldBe(INTERNAL)
-                    it.rating.shouldBe(valueOf(6.3))
+                    it.rating.shouldBe(valueOf(6.8))
                     it.votes.shouldBe(314L)
                 }
         }
@@ -44,7 +44,7 @@ class RatingSpec : DescribeSpec({
                 .shouldBeRight()
                 .should {
                     it.source.shouldBe(INTERNAL)
-                    it.rating.shouldBe(valueOf(6.3))
+                    it.rating.shouldBe(valueOf(6.8))
                     it.votes.shouldBe(817747817L)
                 }
         }

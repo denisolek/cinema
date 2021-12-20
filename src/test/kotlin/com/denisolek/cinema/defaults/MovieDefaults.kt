@@ -1,6 +1,6 @@
 package com.denisolek.cinema.defaults
 
-import com.denisolek.cinema.domain.movie.infrastructure.MovieData
+import com.denisolek.cinema.domain.movie.MovieData
 import com.denisolek.cinema.domain.movie.model.Movie
 import com.denisolek.cinema.domain.movie.model.MovieLoaded
 import com.denisolek.cinema.domain.movie.model.MovieLoaded.MovieLoadedRating
@@ -11,7 +11,7 @@ import com.denisolek.cinema.domain.movie.model.RatingSource.INTERNAL
 import com.denisolek.cinema.domain.movie.model.ReleaseDate.Companion.releaseDate
 import com.denisolek.cinema.domain.movie.model.Runtime.Companion.runtime
 import com.denisolek.cinema.domain.shared.MovieId
-import com.denisolek.cinema.rightValue
+import com.denisolek.cinema.utils.rightValue
 import java.util.*
 
 object MovieDefaults {

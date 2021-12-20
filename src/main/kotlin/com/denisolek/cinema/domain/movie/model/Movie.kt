@@ -2,7 +2,7 @@ package com.denisolek.cinema.domain.movie.model
 
 import arrow.core.Either
 import arrow.core.computations.either
-import com.denisolek.cinema.domain.movie.infrastructure.MovieData
+import com.denisolek.cinema.domain.movie.MovieData
 import com.denisolek.cinema.domain.movie.model.Rating.Companion.imdbRating
 import com.denisolek.cinema.domain.movie.model.Rating.Companion.initialInternalRating
 import com.denisolek.cinema.domain.movie.model.ReleaseDate.Companion.releaseDate

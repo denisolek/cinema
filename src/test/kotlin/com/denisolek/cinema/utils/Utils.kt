@@ -1,4 +1,4 @@
-package com.denisolek.cinema
+package com.denisolek.cinema.utils
 
 import arrow.core.Either
 

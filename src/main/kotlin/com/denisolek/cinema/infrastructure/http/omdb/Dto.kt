@@ -1,6 +1,6 @@
 package com.denisolek.cinema.infrastructure.http.omdb
 
-import com.denisolek.cinema.domain.movie.infrastructure.MovieData
+import com.denisolek.cinema.domain.movie.MovieData
 import com.fasterxml.jackson.annotation.JsonProperty
 
 data class OMDbMovieResponse(

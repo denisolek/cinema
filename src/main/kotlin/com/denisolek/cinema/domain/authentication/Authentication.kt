@@ -10,7 +10,7 @@ import com.denisolek.cinema.domain.shared.UserId
 
 data class Authentication(
     val id: UserId,
-    val roles: Set<Role>
+    private val roles: Set<Role>
 ) {
     fun sufficientFor(vararg requiredRoles: Role): Either<AuthenticationError, Unit> = when {
         missingRequiredRoles(requiredRoles.toSet()) && isNotApplication() -> Forbidden().left()

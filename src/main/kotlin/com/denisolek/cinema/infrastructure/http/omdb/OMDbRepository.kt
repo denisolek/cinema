@@ -3,7 +3,7 @@ package com.denisolek.cinema.infrastructure.http.omdb
 import arrow.core.Either
 import arrow.core.sequenceEither
 import arrow.fx.coroutines.parTraverseN
-import com.denisolek.cinema.domain.movie.infrastructure.MovieData
+import com.denisolek.cinema.domain.movie.MovieData
 import com.denisolek.cinema.domain.movie.infrastructure.MovieDataRepository
 import com.denisolek.cinema.domain.shared.IOError
 import com.denisolek.cinema.domain.shared.MovieId

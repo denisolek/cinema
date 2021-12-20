@@ -14,6 +14,7 @@ sealed class IOError(reason: String) : Failure(reason) {
     class Unavailable(resource: String) : IOError("Resource $resource unavailable")
     class UnauthorizedAccess(resource: String) : IOError("Unauthorized access to $resource")
     class ClientFailure(resource: String) : IOError("Requesting $resource failed with client error")
+    class DataIntegrityViolation(resource: String) : IOError("Data integrity violation requesting $resource")
     class UnknownFailure(resource: String) : IOError("Something went wrong requesting $resource")
 }
 
@@ -28,8 +29,13 @@ sealed class ValidationError(reason: String) : Failure(reason) {
     }
 
     sealed class RatingValidationError(reason: String) : ValidationError(reason) {
-        class RatingOutOfRange(rating: String) : RatingValidationError("Rating $rating can't be out of range 0-10")
+        class RatingOutOfRange(rating: String) : RatingValidationError("Rating $rating can't be out of range (imdb 0-10, internal 0-5)")
         class NegativeVotes(votes: String) : RatingValidationError("Votes $votes can't be negative")
         class InvalidRating(source: RatingSource, rating: String, votes: String) : RatingValidationError("Can't parse $source, $rating, $votes")
+    }
+
+    sealed class StarsValidationError(reason: String) : ValidationError(reason) {
+        class StarsOutOfRange(stars: Int) : StarsValidationError("Stars $stars can't be out of range 0-5")
+        class InvalidStars(stars: Int) : StarsValidationError("Can't parse $stars")
     }
 }
