@@ -1,6 +1,10 @@
 package com.denisolek.cinema.domain.shared
 
 import com.denisolek.cinema.domain.movie.model.RatingSource
+import com.denisolek.cinema.domain.show.model.Currency
+import java.math.BigDecimal
+import java.time.Duration
+import java.time.Instant
 
 sealed class Failure(val reason: String)
 
@@ -37,5 +41,16 @@ sealed class ValidationError(reason: String) : Failure(reason) {
     sealed class StarsValidationError(reason: String) : ValidationError(reason) {
         class StarsOutOfRange(stars: Int) : StarsValidationError("Stars $stars can't be out of range 0-5")
         class InvalidStars(stars: Int) : StarsValidationError("Can't parse $stars")
+    }
+
+    sealed class ShowtimeValidationError(reason: String) : ValidationError(reason) {
+        class ShowtimeInThePast(start: Instant) : ShowtimeValidationError("Showtime stars in the past $start")
+        class MaxDurationExceeded(duration: Duration) : ShowtimeValidationError("Duration $duration exceeds max show duration")
+        class InvalidShowtime(start: Instant, duration: Duration) : ShowtimeValidationError("Can't parse $start, $duration")
+    }
+
+    sealed class PriceValidationError(reason: String) : ValidationError(reason) {
+        class NegativePrice(amount: BigDecimal) : PriceValidationError("Price $amount can't be negative")
+        class InvalidPrice(amount: BigDecimal, currency: Currency) : PriceValidationError("Can't parse $amount, ${currency.name}")
     }
 }
