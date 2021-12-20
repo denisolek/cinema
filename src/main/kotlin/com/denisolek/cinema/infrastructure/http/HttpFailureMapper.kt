@@ -6,7 +6,7 @@ import io.ktor.http.HttpStatusCode.Companion.Unauthorized
 
 fun Throwable.mapToHttpFailure(resource: String) = when (this) {
     is ClientRequestException -> when (this.response.status) {
-        Unauthorized -> Unauthorized(resource)
+        Unauthorized -> UnauthorizedAccess(resource)
         else -> ClientFailure(resource)
     }
     is ServerResponseException -> Unavailable(resource)

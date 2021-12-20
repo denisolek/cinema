@@ -1,4 +1,4 @@
-package com.denisolek.cinema.movie
+package com.denisolek.cinema.defaults
 
 import com.denisolek.cinema.domain.movie.infrastructure.MovieData
 import com.denisolek.cinema.domain.movie.model.Movie

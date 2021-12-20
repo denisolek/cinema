@@ -8,11 +8,11 @@ import org.springframework.http.HttpStatus.OK
 import org.springframework.http.MediaType.APPLICATION_JSON_VALUE
 
 class OMDbStubs(port: Int) : HttpStub(port) {
-    fun fetchMovieSuccess(movieId: String, apiKey: String, response: Any) {
+    fun stubFetchMovieSuccess(movieId: String, apiKey: String, response: Any) {
         stubFetchingMovie(movieId, apiKey, OK, response)
     }
 
-    fun fetchMovieFailure(movieId: String, apiKey: String, status: HttpStatus) {
+    fun stubFetchMovieFailure(movieId: String, apiKey: String, status: HttpStatus) {
         stubFetchingMovie(movieId, apiKey, status, Unit)
     }
 

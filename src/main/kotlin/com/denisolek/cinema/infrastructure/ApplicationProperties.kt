@@ -6,5 +6,6 @@ import org.springframework.boot.context.properties.ConstructorBinding
 @ConstructorBinding
 @ConfigurationProperties("setup")
 class ApplicationProperties(
+    val loadMoviesOnStartup: Boolean = true,
     val availableMovies: List<String>
 )

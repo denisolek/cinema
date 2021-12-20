@@ -2,6 +2,8 @@ package com.denisolek.cinema.domain.movie
 
 import arrow.core.Either
 import arrow.core.computations.either.eager
+import com.denisolek.cinema.domain.authentication.Authentication
+import com.denisolek.cinema.domain.authentication.Role.OWNER
 import com.denisolek.cinema.domain.movie.infrastructure.MovieDataRepository
 import com.denisolek.cinema.domain.movie.infrastructure.MovieRepository
 import com.denisolek.cinema.domain.movie.model.Movie.Companion.movie
@@ -15,7 +17,8 @@ class MovieFacade(
     private val movieDataRepository: MovieDataRepository,
     private val eventPublisher: DomainEventPublisher
 ) {
-    fun loadMovies(movieIds: List<MovieId>): Either<Failure, Unit> = eager {
+    fun loadMovies(authentication: Authentication, movieIds: List<MovieId>): Either<Failure, Unit> = eager {
+        authentication.sufficientFor(OWNER).bind()
         val movieData = movieDataRepository.find(movieIds).bind()
         val movies = movieData.map { movie(it).bind() }
         movies.forEach {
