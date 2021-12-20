@@ -9,22 +9,18 @@ import com.denisolek.cinema.domain.movie.MovieFacade
 import com.denisolek.cinema.domain.review.infrastructure.ReviewRepository
 import com.denisolek.cinema.domain.review.model.Review.Companion.review
 import com.denisolek.cinema.domain.shared.Failure
-import com.denisolek.cinema.domain.shared.IOError.ClientFailure
 import com.denisolek.cinema.domain.shared.IOError.NotFound
 import com.denisolek.cinema.domain.shared.event.DomainEventPublisher
 
 class ReviewFacade(
     private val repository: ReviewRepository,
-    private val eventPublisher: DomainEventPublisher,
-    private val movieFacade: MovieFacade
+    private val movieFacade: MovieFacade,
+    private val eventPublisher: DomainEventPublisher
 ) {
 
     fun addReview(command: AddReview): Either<Failure, Unit> = eager {
         command.authentication.sufficientFor(MOVIEGOER).bind()
-
-        if (!movieFacade.movieExists(command.movieId).bind())
-            ClientFailure("${command.movieId}").left().bind()
-
+        movieFacade.movieExists(command.movieId).bind()
         val existingReview = repository.find(command.authentication.id, command.movieId)
         val result = existingReview.fold(
             ifLeft = {

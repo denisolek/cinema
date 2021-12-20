@@ -1,6 +1,8 @@
 package com.denisolek.cinema.utils
 
 import com.denisolek.cinema.api.MovieListingResponse
+import com.denisolek.cinema.api.ReviewRequest
+import com.denisolek.cinema.defaults.AuthDefaults.moviegoerToken
 import com.denisolek.cinema.defaults.AuthDefaults.ownerToken
 import org.springframework.boot.test.web.client.TestRestTemplate
 import org.springframework.http.HttpHeaders
@@ -14,18 +16,22 @@ import org.springframework.stereotype.Component
 class CinemaClient(val restTemplate: TestRestTemplate) {
 
     fun movieListing(): ResponseEntity<MovieListingResponse> {
-        return get("/movies", MovieListingResponse::class.java)
+        return getRequest("/movies", MovieListingResponse::class.java)
     }
 
     fun loadMovies(authorization: String = ownerToken): ResponseEntity<Any> {
-        return post("/movies", authorizationHeader(authorization), Unit, Any::class.java)
+        return postRequest("/movies", authorizationHeader(authorization), Unit, Any::class.java)
     }
 
-    fun <T> get(url: String, responseType: Class<T>): ResponseEntity<T> {
+    fun review(movieId: String, stars: Int, authorization: String = moviegoerToken): ResponseEntity<Any> {
+        return postRequest("/movies/$movieId/reviews", authorizationHeader(authorization), ReviewRequest(stars), Any::class.java)
+    }
+
+    fun <T> getRequest(url: String, responseType: Class<T>): ResponseEntity<T> {
         return restTemplate.exchange(get(url).build(), responseType)
     }
 
-    fun <T> post(url: String, headers: HttpHeaders = EMPTY, body: Unit, responseType: Class<T>): ResponseEntity<T> {
+    fun <T> postRequest(url: String, headers: HttpHeaders = EMPTY, body: Any, responseType: Class<T>): ResponseEntity<T> {
         return restTemplate.exchange(
             post(url)
                 .headers(headers)

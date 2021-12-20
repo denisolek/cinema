@@ -41,7 +41,7 @@ class ReviewSpec : DescribeSpec({
     val eventPublisher = mockk<DomainEventPublisher>()
     val movieFacade = mockk<MovieFacade>()
 
-    val facade = ReviewFacade(repository, eventPublisher, movieFacade)
+    val facade = ReviewFacade(repository, movieFacade, eventPublisher)
 
     beforeContainer {
         repository.clear()

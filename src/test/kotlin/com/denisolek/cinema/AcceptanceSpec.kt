@@ -39,6 +39,12 @@ class AcceptanceSpec : DescribeSpec() {
                     body?.movies.shouldNotBeEmpty()
                 }
             }
+
+            it("Moviegoer should be able to review a move") {
+                with(cinema.review(movieId.value, 5)) {
+                    statusCode.shouldBe(OK)
+                }
+            }
         }
     }
 }

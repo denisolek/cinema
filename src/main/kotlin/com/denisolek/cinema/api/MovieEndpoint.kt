@@ -3,6 +3,8 @@ package com.denisolek.cinema.api
 import arrow.core.computations.either.eager
 import com.denisolek.cinema.domain.authentication.AuthenticationFacade
 import com.denisolek.cinema.domain.movie.MovieFacade
+import com.denisolek.cinema.domain.review.AddReview
+import com.denisolek.cinema.domain.review.ReviewFacade
 import com.denisolek.cinema.domain.shared.Failure
 import com.denisolek.cinema.domain.shared.MovieId
 import com.denisolek.cinema.infrastructure.ApplicationProperties
@@ -17,6 +19,7 @@ import org.springframework.web.bind.annotation.*
 class MovieEndpoint(
     private val authenticationFacade: AuthenticationFacade,
     private val movieFacade: MovieFacade,
+    private val reviewFacade: ReviewFacade,
     private val properties: ApplicationProperties
 ) {
     @GetMapping
@@ -31,6 +34,19 @@ class MovieEndpoint(
         properties.availableMovies
             .map { MovieId(it) }
             .let { movieFacade.loadMovies(authentication, it) }.bind()
+    }.fold(
+        ifRight = { ok().build() },
+        ifLeft = { it.mapToResponseFailure() }
+    )
+
+    @PostMapping("/{movieId}/reviews")
+    fun review(
+        @RequestHeader(AUTHORIZATION) authorization: String,
+        @PathVariable movieId: String,
+        @RequestBody body: ReviewRequest
+    ): ResponseEntity<Any> = eager<Failure, Unit> {
+        val authentication = authenticationFacade.authenticate(authorization).bind()
+        reviewFacade.addReview(AddReview(authentication, MovieId(movieId), body.stars)).bind()
     }.fold(
         ifRight = { ok().build() },
         ifLeft = { it.mapToResponseFailure() }
