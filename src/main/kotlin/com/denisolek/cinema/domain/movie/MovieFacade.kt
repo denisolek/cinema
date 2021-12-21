@@ -27,7 +27,7 @@ class MovieFacade(
 
     fun getListingInfos(): Either<Failure, List<MovieListingInfo>> = eager {
         val movies = repository.findAll().bind()
-        movies.map { MovieListingInfo(it.id.value, it.title, it.description) }
+        movies.map { MovieListingInfo(it.id.value, it.title, it.description, it.runtime.value) }
     }
 
     fun movieExists(movieId: MovieId): Either<Failure, Boolean> = repository.find(movieId).map { true }

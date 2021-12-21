@@ -38,10 +38,17 @@ class MovieEndpoint(
         ifLeft = { it.mapToResponseFailure() }
     )
 
+    @GetMapping("/{movieId}")
+    @ApiResponse(responseCode = "200", content = [Content(schema = Schema(implementation = MovieDetails::class))])
+    fun movieDetails(@PathVariable movieId: String) = movieDetailsProjection.query(movieId).fold(
+        ifRight = { ok(it) },
+        ifLeft = { it.mapToResponseFailure() }
+    )
+
     @PostMapping
     fun load(@RequestHeader(AUTHORIZATION) authorization: String) = eager<Failure, Unit> {
         val authentication = authenticationFacade.authenticate(authorization).bind()
-        properties.availableMovies
+        properties.supportedMovies
             .map { MovieId(it) }
             .let { movieFacade.loadMovies(authentication, it) }.bind()
     }.fold(

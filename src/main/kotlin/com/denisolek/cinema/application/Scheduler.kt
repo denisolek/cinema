@@ -27,8 +27,8 @@ class Scheduler(private val properties: ApplicationProperties, val movieFacade: 
     }
 
     private fun loadMovies() {
-        log.info { "Loading ${properties.availableMovies} movies" }
-        properties.availableMovies
+        log.info { "Loading ${properties.supportedMovies} movies" }
+        properties.supportedMovies
             .map { MovieId(it) }
             .let { movieFacade.loadMovies(applicationAuth, it) }
     }

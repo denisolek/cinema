@@ -5,7 +5,8 @@ import java.time.Duration
 data class MovieListingInfo(
     val id: String,
     val title: String,
-    val description: String
+    val description: String,
+    val runtime: Duration
 )
 
 data class MovieData(

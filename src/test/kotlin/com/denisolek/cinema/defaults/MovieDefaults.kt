@@ -56,6 +56,7 @@ object MovieDefaults {
     val defaultMovieListingInfo = MovieListingInfo(
         id = movieId.value,
         title = movieTitle,
-        description = movieDescription
+        description = movieDescription,
+        runtime = runtime(movieRuntime).rightValue.value
     )
 }

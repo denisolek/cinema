@@ -4,6 +4,7 @@ import com.denisolek.cinema.api.MovieListingResponse
 import com.denisolek.cinema.api.ReviewRequest
 import com.denisolek.cinema.defaults.AuthDefaults.moviegoerToken
 import com.denisolek.cinema.defaults.AuthDefaults.ownerToken
+import com.denisolek.cinema.domain.readmodel.model.MovieDetails
 import org.springframework.boot.test.web.client.TestRestTemplate
 import org.springframework.http.HttpHeaders
 import org.springframework.http.HttpHeaders.EMPTY
@@ -17,6 +18,10 @@ class CinemaClient(val restTemplate: TestRestTemplate) {
 
     fun movieListing(): ResponseEntity<MovieListingResponse> {
         return getRequest("/movies", MovieListingResponse::class.java)
+    }
+
+    fun movieDetails(movieId: String): ResponseEntity<MovieDetails> {
+        return getRequest("/movies/$movieId", MovieDetails::class.java)
     }
 
     fun loadMovies(authorization: String = ownerToken): ResponseEntity<Any> {

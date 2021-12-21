@@ -43,6 +43,7 @@ object ReviewDefaults {
 
     val defaultReviewUpdated = ReviewUpdated(
         reviewId = reviewId.value,
+        movieId = movieId.value,
         date = now,
         stars = updatedStars.rightValue.value,
     )
