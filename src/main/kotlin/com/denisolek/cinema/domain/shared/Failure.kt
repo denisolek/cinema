@@ -1,6 +1,5 @@
 package com.denisolek.cinema.domain.shared
 
-import com.denisolek.cinema.domain.movie.model.RatingSource
 import com.denisolek.cinema.domain.show.model.Currency
 import java.math.BigDecimal
 import java.time.Duration
@@ -33,9 +32,7 @@ sealed class ValidationError(reason: String) : Failure(reason) {
     }
 
     sealed class RatingValidationError(reason: String) : ValidationError(reason) {
-        class RatingOutOfRange(rating: String) : RatingValidationError("Rating $rating can't be out of range (imdb 0-10, internal 0-5)")
-        class NegativeVotes(votes: String) : RatingValidationError("Votes $votes can't be negative")
-        class InvalidRating(source: RatingSource, rating: String, votes: String) : RatingValidationError("Can't parse $source, $rating, $votes")
+        class InvalidRating(rating: String, votes: String) : RatingValidationError("Can't parse $rating, $votes")
     }
 
     sealed class StarsValidationError(reason: String) : ValidationError(reason) {

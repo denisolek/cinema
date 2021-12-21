@@ -21,10 +21,8 @@ class MovieFacade(
         authentication.sufficientFor(OWNER).bind()
         val movieData = movieDataRepository.find(movieIds).bind()
         val movies = movieData.map { movie(it).bind() }
-        movies.forEach {
-            repository.save(it)
-            eventPublisher.publish(movieLoaded(it))
-        }
+        movies.forEach { repository.save(it).bind() }
+        movieData.forEach { eventPublisher.publish(movieLoaded(it).bind()) }
     }
 
     fun getListingInfos(): Either<Failure, List<MovieListingInfo>> = eager {
