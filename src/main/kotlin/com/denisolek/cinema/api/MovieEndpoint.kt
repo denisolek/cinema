@@ -3,6 +3,8 @@ package com.denisolek.cinema.api
 import arrow.core.computations.either.eager
 import com.denisolek.cinema.domain.authentication.AuthenticationFacade
 import com.denisolek.cinema.domain.movie.MovieFacade
+import com.denisolek.cinema.domain.readmodel.MovieDetailsProjection
+import com.denisolek.cinema.domain.readmodel.model.MovieDetails
 import com.denisolek.cinema.domain.review.AddReview
 import com.denisolek.cinema.domain.review.ReviewFacade
 import com.denisolek.cinema.domain.shared.Failure
@@ -25,6 +27,7 @@ class MovieEndpoint(
     private val authenticationFacade: AuthenticationFacade,
     private val movieFacade: MovieFacade,
     private val reviewFacade: ReviewFacade,
+    private val movieDetailsProjection: MovieDetailsProjection,
     private val properties: ApplicationProperties
 ) {
 

@@ -7,5 +7,5 @@ import org.springframework.boot.context.properties.ConstructorBinding
 @ConfigurationProperties("setup")
 class ApplicationProperties(
     val autoLoadMovies: Boolean = true,
-    val availableMovies: List<String>
+    val supportedMovies: List<String>
 )

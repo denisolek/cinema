@@ -25,11 +25,13 @@ data class ReviewAdded(
 data class ReviewUpdated(
     override val id: UUID = randomUUID(),
     val reviewId: UUID,
+    val movieId: String,
     val date: Instant,
     val stars: Int
 ) : DomainEvent {
     constructor(review: Review) : this(
         reviewId = review.id.value,
+        movieId = review.movieId.value,
         date = review.date,
         stars = review.stars.value
     )

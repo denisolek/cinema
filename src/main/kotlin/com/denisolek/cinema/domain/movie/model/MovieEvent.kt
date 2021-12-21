@@ -21,7 +21,7 @@ data class MovieLoaded(
     val releaseDate: Instant,
     val awards: String,
     val imdbRating: Double,
-    val imdbVotes: Long,
+    val imdbVotes: Int,
     val runtime: Duration
 ) : DomainEvent {
     companion object {

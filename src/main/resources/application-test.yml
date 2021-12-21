@@ -1,6 +1,6 @@
 setup:
   autoLoadMovies: false
-  availableMovies: tt0232500
+  supportedMovies: tt0232500, tt0322259, tt0463985
 
 clients:
   omdb:

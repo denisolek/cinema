@@ -49,7 +49,13 @@ object MovieDefaults {
         releaseDate = releaseDate(movieReleaseDate).rightValue.value,
         awards = movieAwards,
         imdbRating = movieImdbRating.toDouble(),
-        imdbVotes = movieImdbVotes.replace(",", "").toLong(),
+        imdbVotes = movieImdbVotes.replace(",", "").toInt(),
         runtime = runtime(movieRuntime).rightValue.value
+    )
+
+    val defaultMovieListingInfo = MovieListingInfo(
+        id = movieId.value,
+        title = movieTitle,
+        description = movieDescription
     )
 }

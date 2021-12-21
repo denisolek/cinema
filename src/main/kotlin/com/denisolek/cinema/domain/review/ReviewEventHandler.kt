@@ -4,6 +4,7 @@ import arrow.core.Either
 import arrow.core.computations.either.eager
 import com.denisolek.cinema.domain.review.infrastructure.ReviewRepository
 import com.denisolek.cinema.domain.review.model.ReviewAdded
+import com.denisolek.cinema.domain.review.model.ReviewUpdated
 import com.denisolek.cinema.domain.review.model.SummedReviewChanged
 import com.denisolek.cinema.domain.shared.Failure
 import com.denisolek.cinema.domain.shared.MovieId
@@ -16,8 +17,12 @@ class ReviewEventHandler(
     private val repository: ReviewRepository,
     private val eventPublisher: DomainEventPublisher
 ) {
-    fun handle(event: ReviewAdded): Either<Failure, Unit> = eager {
-        val movieReviews = repository.findAll(MovieId(event.movieId)).bind()
+    fun handle(event: ReviewAdded): Either<Failure, Unit> = sumReviews(MovieId(event.movieId))
+
+    fun handle(event: ReviewUpdated): Either<Failure, Unit> = sumReviews(MovieId(event.movieId))
+
+    private fun sumReviews(movieId: MovieId): Either<Failure, Unit> = eager {
+        val movieReviews = repository.findAll(movieId).bind()
         val rating = movieReviews
             .sumOf { it.stars.value }
             .let {
@@ -26,7 +31,7 @@ class ReviewEventHandler(
                 summedStars.divide(starsCount, 2, HALF_UP)
             }.toDouble()
         SummedReviewChanged(
-            movieId = event.movieId,
+            movieId = movieId.value,
             date = Instant.now(),
             stars = rating,
             votes = movieReviews.size
