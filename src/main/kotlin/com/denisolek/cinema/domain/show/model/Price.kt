@@ -14,6 +14,9 @@ data class Price private constructor(
     val amount: BigDecimal,
     val currency: Currency
 ) {
+    val asDouble: Double
+        get() = amount.toDouble()
+
     companion object {
         private val log = logger {}
 

@@ -1,5 +1,6 @@
 package com.denisolek.cinema.domain.movie
 
+import com.denisolek.cinema.domain.movie.model.Movie
 import java.time.Duration
 
 data class MovieListingInfo(
@@ -7,7 +8,14 @@ data class MovieListingInfo(
     val title: String,
     val description: String,
     val runtime: Duration
-)
+) {
+    constructor(movie: Movie) : this(
+        id = movie.id.value,
+        title = movie.title,
+        description = movie.description,
+        runtime = movie.runtime.value
+    )
+}
 
 data class MovieData(
     val id: String,

@@ -2,6 +2,8 @@ package com.denisolek.cinema.api
 
 import arrow.core.computations.either.eager
 import com.denisolek.cinema.domain.authentication.AuthenticationFacade
+import com.denisolek.cinema.domain.readmodel.FindShowSchedules
+import com.denisolek.cinema.domain.readmodel.ShowScheduleProjection
 import com.denisolek.cinema.domain.shared.Failure
 import com.denisolek.cinema.domain.shared.MovieId
 import com.denisolek.cinema.domain.shared.ShowId
@@ -19,21 +21,18 @@ import org.springframework.http.MediaType.APPLICATION_JSON_VALUE
 import org.springframework.http.ResponseEntity.ok
 import org.springframework.http.ResponseEntity.status
 import org.springframework.web.bind.annotation.*
+import java.time.Instant
+import java.time.Instant.now
+import java.time.temporal.ChronoUnit.DAYS
 import java.util.*
 
 @RestController
 @RequestMapping(path = ["/shows"], produces = [APPLICATION_JSON_VALUE])
 class ShowEndpoint(
     private val authenticationFacade: AuthenticationFacade,
+    private val showScheduleProjection: ShowScheduleProjection,
     private val showFacade: ShowFacade
 ) {
-
-    @GetMapping
-    @ApiResponse(responseCode = "200", content = [Content(schema = Schema(implementation = ShowInfoResponse::class))])
-    fun allShows() = showFacade.showInfos().fold(
-        ifRight = { ok(ShowInfoResponse(it)) },
-        ifLeft = { it.mapToResponseFailure() }
-    )
 
     @PostMapping
     @ApiResponses(
@@ -80,4 +79,16 @@ class ShowEndpoint(
         ifRight = { status(NO_CONTENT).build() },
         ifLeft = { it.mapToResponseFailure() }
     )
+
+    @GetMapping
+    @ApiResponse(responseCode = "200", content = [Content(schema = Schema(implementation = ShowSchedulesResponse::class))])
+    fun showSchedules(
+        @RequestParam from: Instant?,
+        @RequestParam to: Instant?
+    ) = showScheduleProjection
+        .query(FindShowSchedules(from ?: now(), to ?: now().plus(7, DAYS)))
+        .fold(
+            ifRight = { ok(ShowSchedulesResponse(it)) },
+            ifLeft = { it.mapToResponseFailure() }
+        )
 }

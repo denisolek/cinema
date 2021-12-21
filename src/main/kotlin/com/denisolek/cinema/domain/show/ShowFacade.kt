@@ -42,9 +42,4 @@ class ShowFacade(
         repository.remove(existingShow.id)
         eventPublisher.publish(ShowRemoved(existingShow.id))
     }
-
-    fun showInfos(): Either<Failure, List<ShowInfo>> = eager {
-        val shows = repository.findAll().bind()
-        shows.map { ShowInfo(it) }
-    }
 }
