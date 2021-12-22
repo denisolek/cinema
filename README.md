@@ -34,7 +34,9 @@ called [event storming](https://virtualddd.com/learning-ddd/ddd-crew-eventstormi
 ![event-storming-1](event-storming-1.png)
 Both sessions (big picture, design level) and individual steps are visible in the picture above.
 `Big picture event storming` ended up with 2 subdomains (movie, show), but further exploration
-in `Design level event storming` discovered another subdomain (review). The workshop helped me acquire knowledge about
+in `Design level event storming` discovered another subdomain (review). 
+I've decided that instead of requesting OMDb every time someone asks for the movie data I'll build my own read model with OMDb data at the application startup and update it periodically. 
+The workshop helped me acquire knowledge about
 the domain, so I could start with the implementation.
 
 ### Event storming -> code
