@@ -20,6 +20,8 @@ data class Price private constructor(
     companion object {
         private val log = logger {}
 
+        fun persistedPrice(amount: BigDecimal, currency: Currency) = Price(amount, currency)
+
         fun price(amount: BigDecimal, currency: Currency = USD): Either<PriceValidationError, Price> = Either.catch {
             if (priceIsNegative(amount)) throw NegativePriceException()
             Price(amount.setScale(2, HALF_UP), currency)

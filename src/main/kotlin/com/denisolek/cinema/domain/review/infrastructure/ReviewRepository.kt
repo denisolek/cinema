@@ -8,8 +8,8 @@ import com.denisolek.cinema.domain.shared.ReviewId
 import com.denisolek.cinema.domain.shared.UserId
 
 interface ReviewRepository {
+    fun save(review: Review): Either<IOError, Unit>
     fun find(reviewId: ReviewId): Either<IOError, Review>
     fun find(userId: UserId, movieId: MovieId): Either<IOError, Review>
-    fun save(review: Review): Either<IOError, Review>
     fun findAll(movieId: MovieId): Either<IOError, List<Review>>
 }

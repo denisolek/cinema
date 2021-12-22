@@ -7,7 +7,7 @@ import java.time.Instant
 import java.util.*
 
 interface ShowScheduleRepository {
-    fun save(show: ShowSchedule): Either<IOError, ShowSchedule>
+    fun save(show: ShowSchedule): Either<IOError, Unit>
     fun find(showId: UUID): Either<IOError, ShowSchedule>
     fun remove(showId: UUID): Either<IOError, Unit>
     fun findAll(movieId: String): Either<IOError, List<ShowSchedule>>

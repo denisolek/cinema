@@ -1,4 +1,4 @@
-package com.denisolek.cinema.infrastructure.persistance
+package com.denisolek.cinema.infrastructure.persistance.inmemory
 
 import arrow.core.Either
 import arrow.core.left
@@ -7,17 +7,15 @@ import com.denisolek.cinema.domain.readmodel.infrastructure.ShowScheduleReposito
 import com.denisolek.cinema.domain.readmodel.model.ShowSchedule
 import com.denisolek.cinema.domain.shared.IOError
 import com.denisolek.cinema.domain.shared.IOError.NotFound
-import mu.KotlinLogging.logger
 import java.time.Instant
 import java.util.*
 
 class InMemoryShowScheduleRepository : ShowScheduleRepository {
-    private val log = logger {}
     private val schedules: MutableMap<UUID, ShowSchedule> = mutableMapOf()
 
-    override fun save(show: ShowSchedule): Either<IOError, ShowSchedule> {
+    override fun save(show: ShowSchedule): Either<IOError, Unit> {
         schedules[show.showId] = show
-        return show.right().also { log.info("Saved $it") }
+        return Unit.right()
     }
 
     override fun find(showId: UUID): Either<IOError, ShowSchedule> {

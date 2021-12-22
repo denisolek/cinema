@@ -1,4 +1,4 @@
-package com.denisolek.cinema.infrastructure.persistance
+package com.denisolek.cinema.infrastructure.persistance.inmemory
 
 import arrow.core.Either
 import arrow.core.computations.either.eager
@@ -17,6 +17,11 @@ class InMemoryShowRepository : ShowRepository {
     private val log = KotlinLogging.logger {}
     private val shows: MutableMap<ShowId, Show> = mutableMapOf()
 
+    override fun save(show: Show): Either<IOError, Unit> {
+        shows[show.id] = show
+        return Unit.right()
+    }
+
     // TODO use different model in real db repository to optimize requests
     override fun notContainsOverlappingShow(newStart: Instant, newEnd: Instant): Either<IOError, Boolean> {
         return shows.values.any {
@@ -27,11 +32,6 @@ class InMemoryShowRepository : ShowRepository {
             if (it) DataIntegrityViolation("overlapping shows").left()
             else true.right()
         }
-    }
-
-    override fun save(show: Show): Either<IOError, Show> {
-        shows[show.id] = show
-        return show.right().also { log.info { "Saved $show" } }
     }
 
     override fun findAll(): Either<IOError, List<Show>> {

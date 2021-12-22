@@ -8,7 +8,7 @@ import com.denisolek.cinema.domain.review.model.SummedReviewChanged
 import com.denisolek.cinema.domain.shared.ReviewId
 import com.denisolek.cinema.domain.shared.UserId
 import com.denisolek.cinema.domain.shared.event.DomainEventPublisher
-import com.denisolek.cinema.infrastructure.persistance.InMemoryReviewRepository
+import com.denisolek.cinema.infrastructure.persistance.inmemory.InMemoryReviewRepository
 import com.denisolek.cinema.utils.rightValue
 import io.kotest.core.spec.style.FunSpec
 import io.kotest.matchers.should

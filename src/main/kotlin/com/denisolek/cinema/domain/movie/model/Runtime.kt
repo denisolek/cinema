@@ -25,5 +25,7 @@ data class Runtime private constructor(val value: Duration) {
                     }
                 }
             }
+
+        fun persistedDuration(duration: Duration) = Runtime(duration)
     }
 }

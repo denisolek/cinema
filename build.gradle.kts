@@ -14,6 +14,7 @@ val kotlinLogging: String by project
 val wiremockVersion: String by project
 val apacheCommons: String by project
 val openApiVersion: String by project
+val kmongoVersion: String by project
 
 plugins {
     id("org.springframework.boot")
@@ -44,6 +45,7 @@ dependencies {
     implementation("io.github.microutils:kotlin-logging-jvm:$kotlinLogging")
     implementation("org.springdoc:springdoc-openapi-ui:$openApiVersion")
     implementation("org.springdoc:springdoc-openapi-kotlin:$openApiVersion")
+    implementation("org.litote.kmongo:kmongo:$kmongoVersion")
     testImplementation("org.springframework.boot:spring-boot-starter-test:$springBootVersion")
     testImplementation("io.kotest:kotest-runner-junit5:$kotestVersion")
     testImplementation("io.kotest.extensions:kotest-assertions-arrow:$kotestArrowVersion")

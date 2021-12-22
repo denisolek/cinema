@@ -1,4 +1,4 @@
-package com.denisolek.cinema.infrastructure.persistance
+package com.denisolek.cinema.infrastructure.persistance.inmemory
 
 import arrow.core.Either
 import arrow.core.left
@@ -17,6 +17,11 @@ class InMemoryReviewRepository : ReviewRepository {
     private val log = logger {}
     private val reviews: MutableMap<ReviewId, Review> = mutableMapOf()
 
+    override fun save(review: Review): Either<IOError, Unit> {
+        reviews[review.id] = review
+        return Unit.right()
+    }
+
     override fun find(reviewId: ReviewId): Either<IOError, Review> {
         return reviews[reviewId]?.right() ?: NotFound("${reviewId.value}").left()
     }
@@ -33,11 +38,6 @@ class InMemoryReviewRepository : ReviewRepository {
                 }
             }
         }
-
-    override fun save(review: Review): Either<IOError, Review> {
-        reviews[review.id] = review
-        return review.right().also { log.info { "Saved $review" } }
-    }
 
     override fun findAll(movieId: MovieId): Either<IOError, List<Review>> {
         return reviews.values.filter { it.movieId == movieId }.right()

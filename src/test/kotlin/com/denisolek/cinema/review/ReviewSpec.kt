@@ -19,7 +19,7 @@ import com.denisolek.cinema.domain.shared.ReviewId
 import com.denisolek.cinema.domain.shared.ValidationError.StarsValidationError.StarsOutOfRange
 import com.denisolek.cinema.domain.shared.event.DomainEvent
 import com.denisolek.cinema.domain.shared.event.DomainEventPublisher
-import com.denisolek.cinema.infrastructure.persistance.InMemoryReviewRepository
+import com.denisolek.cinema.infrastructure.persistance.inmemory.InMemoryReviewRepository
 import com.denisolek.cinema.utils.rightValue
 import io.kotest.assertions.arrow.core.shouldBeLeft
 import io.kotest.assertions.arrow.core.shouldBeRight

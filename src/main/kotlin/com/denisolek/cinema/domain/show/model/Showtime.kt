@@ -23,6 +23,8 @@ data class Showtime private constructor(
         private val log = logger {}
         private val allowedSlippage = ofSeconds(60)
 
+        fun persistedShowtime(start: Instant, duration: Duration) = Showtime(start, duration)
+
         fun newShowtime(start: Instant, duration: Duration): Either<ShowtimeValidationError, Showtime> =
             showtime(start, duration, true)
 

@@ -5,7 +5,6 @@ import com.denisolek.cinema.domain.review.ReviewEventHandler
 import com.denisolek.cinema.domain.review.ReviewFacade
 import com.denisolek.cinema.domain.review.infrastructure.ReviewRepository
 import com.denisolek.cinema.infrastructure.event.SpringDomainEventPublisher
-import com.denisolek.cinema.infrastructure.persistance.InMemoryReviewRepository
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 
@@ -13,18 +12,15 @@ import org.springframework.context.annotation.Configuration
 class ReviewConfiguration {
 
     @Bean
-    fun reviewRepository() = InMemoryReviewRepository()
-
-    @Bean
     fun reviewFacade(
         reviewRepository: ReviewRepository,
         movieFacade: MovieFacade,
-        springDomainEventPublisher: SpringDomainEventPublisher
+        springDomainEventPublisher: SpringDomainEventPublisher,
     ) = ReviewFacade(reviewRepository, movieFacade, springDomainEventPublisher)
 
     @Bean
     fun reviewEventHandler(
         reviewRepository: ReviewRepository,
-        springDomainEventPublisher: SpringDomainEventPublisher
+        springDomainEventPublisher: SpringDomainEventPublisher,
     ) = ReviewEventHandler(reviewRepository, springDomainEventPublisher)
 }

@@ -1,6 +1,7 @@
-package com.denisolek.cinema.infrastructure.persistance
+package com.denisolek.cinema.infrastructure.persistance.inmemory
 
 import arrow.core.Either
+import arrow.core.computations.either.eager
 import arrow.core.left
 import arrow.core.right
 import com.denisolek.cinema.domain.movie.infrastructure.MovieRepository
@@ -14,9 +15,9 @@ class InMemoryMovieRepository : MovieRepository {
     private val log = logger {}
     private val movies: MutableMap<MovieId, Movie> = mutableMapOf()
 
-    override fun save(movie: Movie): Either<IOError, Movie> {
+    override fun save(movie: Movie): Either<IOError, Unit> = eager {
         movies[movie.id] = movie
-        return movie.right().also { log.info { "Saved $movie" } }
+        log.info("Saved $movie")
     }
 
     override fun find(movieId: MovieId): Either<IOError, Movie> {
