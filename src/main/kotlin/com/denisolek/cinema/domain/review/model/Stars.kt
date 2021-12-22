@@ -9,8 +9,6 @@ import mu.KotlinLogging.logger
 
 data class Stars private constructor(val value: Int) {
 
-    fun differsFrom(stars: Stars): Boolean = value != stars.value
-
     companion object {
         private val log = logger {}
         private val minStars = 1

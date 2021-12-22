@@ -13,7 +13,7 @@ import org.springframework.scheduling.annotation.Scheduled
 
 @Configuration
 @EnableScheduling
-class Scheduler(private val properties: ApplicationProperties, val movieFacade: MovieFacade) {
+class Scheduler(private val properties: ApplicationProperties, private val movieFacade: MovieFacade) {
     private val log = logger {}
 
     @EventListener

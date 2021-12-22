@@ -4,7 +4,7 @@ import com.denisolek.cinema.defaults.MovieDefaults.defaultMovieLoaded
 import com.denisolek.cinema.defaults.ReadmodelDefaults.defaultMovieDetails
 import com.denisolek.cinema.domain.readmodel.MovieDetailsProjection
 import com.denisolek.cinema.domain.review.model.SummedReviewChanged
-import com.denisolek.cinema.infrastructure.persistance.inmemory.InMemoryMovieDetailsRepository
+import com.denisolek.cinema.infrastructure.persistence.inmemory.InMemoryMovieDetailsRepository
 import io.kotest.assertions.arrow.core.shouldBeRight
 import io.kotest.core.spec.style.FunSpec
 import io.kotest.matchers.should

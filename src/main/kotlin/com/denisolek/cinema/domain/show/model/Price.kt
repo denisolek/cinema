@@ -1,6 +1,7 @@
 package com.denisolek.cinema.domain.show.model
 
 import arrow.core.Either
+import arrow.core.Either.Companion.catch
 import com.denisolek.cinema.domain.shared.ValidationError.PriceValidationError
 import com.denisolek.cinema.domain.shared.ValidationError.PriceValidationError.InvalidPrice
 import com.denisolek.cinema.domain.shared.ValidationError.PriceValidationError.NegativePrice
@@ -12,7 +13,7 @@ import java.math.RoundingMode.HALF_UP
 
 data class Price private constructor(
     val amount: BigDecimal,
-    val currency: Currency
+    val currency: Currency,
 ) {
     val asDouble: Double
         get() = amount.toDouble()
@@ -22,7 +23,7 @@ data class Price private constructor(
 
         fun persistedPrice(amount: BigDecimal, currency: Currency) = Price(amount, currency)
 
-        fun price(amount: BigDecimal, currency: Currency = USD): Either<PriceValidationError, Price> = Either.catch {
+        fun price(amount: BigDecimal, currency: Currency = USD): Either<PriceValidationError, Price> = catch {
             if (priceIsNegative(amount)) throw NegativePriceException()
             Price(amount.setScale(2, HALF_UP), currency)
         }.mapLeft { ex: Throwable ->

@@ -7,7 +7,7 @@ data class MovieListingInfo(
     val id: String,
     val title: String,
     val description: String,
-    val runtime: Duration
+    val runtime: Duration,
 ) {
     constructor(movie: Movie) : this(
         id = movie.id.value,
@@ -25,9 +25,9 @@ data class MovieData(
     val awards: String,
     val imdbRating: String,
     val imdbVotes: String,
-    val runtime: String
+    val runtime: String,
 )
 
 data class MovieRuntimeInfo(
-    val runtime: Duration
+    val runtime: Duration,
 )

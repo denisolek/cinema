@@ -6,6 +6,7 @@ import com.denisolek.cinema.domain.show.model.ShowAdded
 import com.denisolek.cinema.domain.show.model.ShowPriceUpdated
 import com.denisolek.cinema.domain.show.model.ShowTimeUpdated
 import java.time.Duration
+import java.time.Duration.ofMinutes
 import java.time.Instant
 import java.util.*
 
@@ -18,7 +19,7 @@ data class ShowSchedule(
     val movieId: String,
     val movieTitle: String,
     val movieDescription: String,
-    val movieRuntime: Duration
+    val movieRuntime: Duration,
 ) {
     constructor(event: ShowAdded, movieListingInfo: MovieListingInfo) : this(
         showId = event.showId,
@@ -35,7 +36,7 @@ data class ShowSchedule(
     fun apply(event: MovieLoaded) = this.copy(
         movieTitle = event.title,
         movieDescription = event.description,
-        movieRuntime = event.runtime
+        movieRuntime = ofMinutes(event.runtime)
     )
 
     fun apply(event: ShowTimeUpdated) = this.copy(

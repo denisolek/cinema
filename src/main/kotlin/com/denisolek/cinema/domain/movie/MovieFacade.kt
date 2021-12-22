@@ -15,7 +15,7 @@ import com.denisolek.cinema.domain.shared.event.DomainEventPublisher
 class MovieFacade(
     private val repository: MovieRepository,
     private val movieDataRepository: MovieDataRepository,
-    private val eventPublisher: DomainEventPublisher
+    private val eventPublisher: DomainEventPublisher,
 ) {
     fun loadMovies(authentication: Authentication, movieIds: List<MovieId>): Either<Failure, Unit> = eager {
         authentication.sufficientFor(OWNER).bind()
@@ -30,9 +30,14 @@ class MovieFacade(
         movies.map { MovieListingInfo(it) }
     }
 
-    fun getListingInfo(movieId: MovieId): Either<Failure, MovieListingInfo> = repository.find(movieId).map { MovieListingInfo(it) }
+    fun getListingInfo(movieId: MovieId): Either<Failure, MovieListingInfo> =
+        repository.find(movieId).map { MovieListingInfo(it) }
 
-    fun movieExists(movieId: MovieId): Either<Failure, Boolean> = repository.find(movieId).map { true }
+    fun ensureMovieExists(movieId: MovieId): Either<Failure, Unit> = eager {
+        repository.find(movieId).bind()
+    }
 
-    fun getRuntimeInfo(movieId: MovieId): Either<Failure, MovieRuntimeInfo> = repository.find(movieId).map { MovieRuntimeInfo(it.runtime.value) }
+
+    fun getRuntimeInfo(movieId: MovieId): Either<Failure, MovieRuntimeInfo> =
+        repository.find(movieId).map { MovieRuntimeInfo(it.runtime.value) }
 }

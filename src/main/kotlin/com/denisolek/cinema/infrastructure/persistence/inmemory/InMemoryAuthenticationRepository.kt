@@ -1,4 +1,4 @@
-package com.denisolek.cinema.infrastructure.persistance.inmemory
+package com.denisolek.cinema.infrastructure.persistence.inmemory
 
 import arrow.core.Either
 import arrow.core.left
@@ -18,7 +18,6 @@ class InMemoryAuthenticationRepository(defaultUsers: List<DefaultUser>) : Authen
         { Authentication(UserId(it.userId), it.roles.map { role -> valueOf(role) }.toSet()) }
     )
 
-    override fun find(token: String): Either<IOError, Authentication> {
-        return authentications[token]?.right() ?: NotFound(token).left()
-    }
+    override fun find(token: String): Either<IOError, Authentication> =
+        authentications[token]?.right() ?: NotFound(token).left()
 }

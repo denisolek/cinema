@@ -1,4 +1,4 @@
-package com.denisolek.cinema.infrastructure.persistance.mongo
+package com.denisolek.cinema.infrastructure.persistence.mongo
 
 import arrow.core.Either
 import arrow.core.Either.Companion.catch
@@ -10,18 +10,18 @@ import com.denisolek.cinema.domain.show.model.Currency.valueOf
 import com.denisolek.cinema.domain.show.model.Price
 import com.denisolek.cinema.domain.show.model.Show
 import com.denisolek.cinema.domain.show.model.Showtime.Companion.persistedShowtime
-import com.denisolek.cinema.infrastructure.persistance.mongo.MongoClientFactory.mongodb
+import com.denisolek.cinema.infrastructure.persistence.mongo.MongoClientFactory.mongodb
+import com.denisolek.cinema.infrastructure.persistence.mongo.MongoCollections.SHOW
 import mu.KotlinLogging.logger
 import org.bson.codecs.pojo.annotations.BsonId
 import org.litote.kmongo.*
 import java.math.BigDecimal
-import java.time.Duration.ofMinutes
 import java.time.Instant
 import java.util.*
 
 class MongoShowRepository : ShowRepository {
     private val log = logger {}
-    private val collection = mongodb().getCollection<ShowDocument>("Show")
+    private val collection = mongodb().getCollection<ShowDocument>(SHOW)
 
     override fun save(show: Show): Either<IOError, Unit> = catch {
         collection.save(show.toDocument())
@@ -82,7 +82,7 @@ private fun Show.toDocument() = ShowDocument(
     movieId = movieId.value,
     start = showtime.start,
     end = showtime.end,
-    duration = showtime.duration.toMinutes(),
+    duration = showtime.minutes,
     price = price.amount,
     currency = price.currency.name
 )
@@ -90,6 +90,6 @@ private fun Show.toDocument() = ShowDocument(
 private fun ShowDocument.toDomain() = Show(
     id = ShowId(id),
     movieId = MovieId(movieId),
-    showtime = persistedShowtime(start, ofMinutes(duration)),
+    showtime = persistedShowtime(start, duration),
     price = Price.persistedPrice(price, valueOf(currency))
 )

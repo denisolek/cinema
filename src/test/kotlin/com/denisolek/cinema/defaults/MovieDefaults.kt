@@ -50,7 +50,7 @@ object MovieDefaults {
         awards = movieAwards,
         imdbRating = movieImdbRating.toDouble(),
         imdbVotes = movieImdbVotes.replace(",", "").toInt(),
-        runtime = runtime(movieRuntime).rightValue.value
+        runtime = runtime(movieRuntime).rightValue.minutes
     )
 
     val defaultMovieListingInfo = MovieListingInfo(

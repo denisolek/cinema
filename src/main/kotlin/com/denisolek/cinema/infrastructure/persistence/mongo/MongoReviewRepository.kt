@@ -1,4 +1,4 @@
-package com.denisolek.cinema.infrastructure.persistance.mongo
+package com.denisolek.cinema.infrastructure.persistence.mongo
 
 import arrow.core.Either
 import arrow.core.Either.Companion.catch
@@ -9,7 +9,8 @@ import com.denisolek.cinema.domain.shared.IOError
 import com.denisolek.cinema.domain.shared.MovieId
 import com.denisolek.cinema.domain.shared.ReviewId
 import com.denisolek.cinema.domain.shared.UserId
-import com.denisolek.cinema.infrastructure.persistance.mongo.MongoClientFactory.mongodb
+import com.denisolek.cinema.infrastructure.persistence.mongo.MongoClientFactory.mongodb
+import com.denisolek.cinema.infrastructure.persistence.mongo.MongoCollections.REVIEW
 import mu.KotlinLogging.logger
 import org.bson.codecs.pojo.annotations.BsonId
 import org.litote.kmongo.*
@@ -18,7 +19,7 @@ import java.util.*
 
 class MongoReviewRepository : ReviewRepository {
     private val log = logger {}
-    private val collection = mongodb().getCollection<ReviewDocument>("Review")
+    private val collection = mongodb().getCollection<ReviewDocument>(REVIEW)
 
     override fun save(review: Review): Either<IOError, Unit> = catch {
         collection.save(review.toDocument())

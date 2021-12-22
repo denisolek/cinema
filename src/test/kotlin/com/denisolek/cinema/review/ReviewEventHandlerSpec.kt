@@ -8,7 +8,7 @@ import com.denisolek.cinema.domain.review.model.SummedReviewChanged
 import com.denisolek.cinema.domain.shared.ReviewId
 import com.denisolek.cinema.domain.shared.UserId
 import com.denisolek.cinema.domain.shared.event.DomainEventPublisher
-import com.denisolek.cinema.infrastructure.persistance.inmemory.InMemoryReviewRepository
+import com.denisolek.cinema.infrastructure.persistence.inmemory.InMemoryReviewRepository
 import com.denisolek.cinema.utils.rightValue
 import io.kotest.core.spec.style.FunSpec
 import io.kotest.matchers.should
@@ -16,7 +16,6 @@ import io.kotest.matchers.shouldBe
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.slot
-import org.apache.commons.lang3.RandomStringUtils.randomNumeric
 
 class ReviewEventHandlerSpec : FunSpec({
     val repository = InMemoryReviewRepository()
@@ -40,7 +39,7 @@ private fun saveReview(repository: InMemoryReviewRepository, stars: Int) {
     repository.save(
         defaultReview.copy(
             id = ReviewId(),
-            userId = UserId(randomNumeric(8)),
+            userId = UserId("${(10000..99999).random()}"),
             stars = stars(stars).rightValue
         )
     )

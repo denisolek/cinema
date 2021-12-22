@@ -5,6 +5,7 @@ import com.denisolek.cinema.defaults.MovieDefaults.defaultMovieLoaded
 import com.denisolek.cinema.defaults.ShowDefaults.defaultShowAdded
 import com.denisolek.cinema.domain.readmodel.model.MovieDetails
 import com.denisolek.cinema.domain.readmodel.model.ShowSchedule
+import java.time.Duration.ofMinutes
 
 object ReadmodelDefaults {
     val defaultMovieDetails = MovieDetails(
@@ -17,7 +18,7 @@ object ReadmodelDefaults {
         internalVotes = 0,
         imdbRating = defaultMovieLoaded.imdbRating,
         imdbVotes = defaultMovieLoaded.imdbVotes,
-        runtime = defaultMovieLoaded.runtime
+        runtime = ofMinutes(defaultMovieLoaded.runtime)
     )
 
     val defaultShowSchedule = ShowSchedule(

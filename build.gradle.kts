@@ -12,12 +12,13 @@ val ktorClientVersion: String by project
 val coroutinesVersion: String by project
 val kotlinLogging: String by project
 val wiremockVersion: String by project
-val apacheCommons: String by project
 val openApiVersion: String by project
 val kmongoVersion: String by project
+val logbookVersion: String by project
 
 plugins {
     id("org.springframework.boot")
+    id("com.adarshr.test-logger")
     kotlin("jvm")
     kotlin("plugin.spring")
 }
@@ -33,6 +34,7 @@ repositories {
 dependencies {
     implementation("org.springframework.boot:spring-boot-starter-web:$springBootVersion")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin:$jacksonVersion")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutinesVersion")
     implementation("org.jetbrains.kotlin:kotlin-reflect:$kotlinVersion")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlinVersion")
     implementation("io.arrow-kt:arrow-core:$arrowVersion")
@@ -41,18 +43,17 @@ dependencies {
     implementation("io.ktor:ktor-client-core:$ktorClientVersion")
     implementation("io.ktor:ktor-client-cio:$ktorClientVersion")
     implementation("io.ktor:ktor-client-jackson:$ktorClientVersion")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutinesVersion")
-    implementation("io.github.microutils:kotlin-logging-jvm:$kotlinLogging")
     implementation("org.springdoc:springdoc-openapi-ui:$openApiVersion")
     implementation("org.springdoc:springdoc-openapi-kotlin:$openApiVersion")
+    implementation("io.github.microutils:kotlin-logging-jvm:$kotlinLogging")
     implementation("org.litote.kmongo:kmongo:$kmongoVersion")
+    implementation("org.zalando:logbook-spring-boot-starter:$logbookVersion")
     testImplementation("org.springframework.boot:spring-boot-starter-test:$springBootVersion")
     testImplementation("io.kotest:kotest-runner-junit5:$kotestVersion")
     testImplementation("io.kotest.extensions:kotest-assertions-arrow:$kotestArrowVersion")
     testImplementation("io.kotest.extensions:kotest-extensions-spring:$kotestSpringVersion")
     testImplementation("io.mockk:mockk:$mockkVersion")
     testImplementation("com.github.tomakehurst:wiremock-jre8:$wiremockVersion")
-    testImplementation("org.apache.commons:commons-lang3:$apacheCommons")
 }
 
 tasks.withType<KotlinCompile> {

@@ -15,7 +15,7 @@ import com.denisolek.cinema.domain.shared.AuthenticationError.Forbidden
 import com.denisolek.cinema.domain.shared.IOError.Unavailable
 import com.denisolek.cinema.domain.shared.MovieId
 import com.denisolek.cinema.domain.shared.event.DomainEventPublisher
-import com.denisolek.cinema.infrastructure.persistance.inmemory.InMemoryMovieRepository
+import com.denisolek.cinema.infrastructure.persistence.inmemory.InMemoryMovieRepository
 import io.kotest.assertions.arrow.core.shouldBeLeft
 import io.kotest.assertions.arrow.core.shouldBeRight
 import io.kotest.core.spec.style.DescribeSpec

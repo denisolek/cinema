@@ -3,6 +3,7 @@ package com.denisolek.cinema.domain.readmodel.model
 import com.denisolek.cinema.domain.movie.model.MovieLoaded
 import com.denisolek.cinema.domain.review.model.SummedReviewChanged
 import java.time.Duration
+import java.time.Duration.ofMinutes
 import java.time.Instant
 
 data class MovieDetails(
@@ -15,7 +16,7 @@ data class MovieDetails(
     val internalVotes: Int,
     val imdbRating: Double,
     val imdbVotes: Int,
-    val runtime: Duration
+    val runtime: Duration,
 ) {
     constructor(event: MovieLoaded) : this(
         id = event.movieId,
@@ -27,7 +28,7 @@ data class MovieDetails(
         internalVotes = 0,
         imdbRating = event.imdbRating,
         imdbVotes = event.imdbVotes,
-        runtime = event.runtime
+        runtime = ofMinutes(event.runtime)
     )
 
     fun apply(event: MovieLoaded) = this.copy(
@@ -37,7 +38,7 @@ data class MovieDetails(
         awards = event.awards,
         imdbRating = event.imdbRating,
         imdbVotes = event.imdbVotes,
-        runtime = event.runtime
+        runtime = ofMinutes(event.runtime)
     )
 
     fun apply(event: SummedReviewChanged) = this.copy(

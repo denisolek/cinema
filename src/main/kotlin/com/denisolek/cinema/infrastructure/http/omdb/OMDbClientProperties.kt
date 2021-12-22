@@ -14,5 +14,5 @@ class OMDbClientProperties(
     timeout: TimeoutProperties = TimeoutProperties(),
     retry: RetryProperties = RetryProperties(),
     val apiKey: String,
-    val concurrentOperationsLimit: Int = 10
+    val concurrentOperationsLimit: Int = 10,
 ) : HttpClientProperties(baseUrl, basePort, timeout, retry)

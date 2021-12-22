@@ -21,7 +21,7 @@ data class Review(
 ) {
     fun update(command: AddReview): Either<Failure, ReviewOperation> = eager {
         val newStars = stars(command.stars).bind()
-        if (stars.differsFrom(newStars)) {
+        if (stars != newStars) {
             this@Review.copy(
                 date = now(),
                 stars = newStars

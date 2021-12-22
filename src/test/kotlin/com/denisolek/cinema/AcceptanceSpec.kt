@@ -25,6 +25,7 @@ import org.springframework.test.context.ActiveProfiles
 import java.math.BigDecimal.valueOf
 import java.time.Instant.now
 import java.time.temporal.ChronoUnit.DAYS
+import java.time.temporal.ChronoUnit.SECONDS
 
 @ActiveProfiles("test")
 @SpringBootTest(webEnvironment = RANDOM_PORT)
@@ -86,7 +87,7 @@ class AcceptanceSpec(
                         .shouldHaveSize(1)
                         .first().should {
                             it.movieId.shouldBe(movieId.value)
-                            it.start.shouldBe(newShowStart)
+                            it.start.truncatedTo(SECONDS).shouldBe(newShowStart.truncatedTo(SECONDS))
                             it.price.shouldBe(9)
                         }
                 }
@@ -99,7 +100,7 @@ class AcceptanceSpec(
                         it.movieId.shouldBe(movieId.value)
                         it.title.shouldBe(movieTitle)
                         it.shows.first().should { show ->
-                            show.start.shouldBe(newShowStart)
+                            show.start.truncatedTo(SECONDS).shouldBe(newShowStart.truncatedTo(SECONDS))
                             show.price.shouldBe(9)
                         }
                     }

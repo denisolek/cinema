@@ -21,7 +21,7 @@ object ShowDefaults {
         movieId = MovieDefaults.movieId.value,
         start = start,
         end = end,
-        duration = duration,
+        duration = duration.toMinutes(),
         price = price,
         currency = currency
     )
@@ -30,7 +30,7 @@ object ShowDefaults {
         showId = showId,
         start = start.plus(3, DAYS),
         end = end.plus(3, DAYS),
-        duration = duration
+        duration = duration.toMinutes()
     )
 
     val defaultShowPriceUpdated = ShowPriceUpdated(

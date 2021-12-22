@@ -1,4 +1,4 @@
-package com.denisolek.cinema.infrastructure.persistance.mongo
+package com.denisolek.cinema.infrastructure.persistence.mongo
 
 import com.mongodb.MongoClientSettings
 import com.mongodb.client.MongoDatabase

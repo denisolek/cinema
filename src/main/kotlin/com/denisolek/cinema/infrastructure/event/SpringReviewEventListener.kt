@@ -4,19 +4,21 @@ import com.denisolek.cinema.domain.review.ReviewEventHandler
 import com.denisolek.cinema.domain.review.infrastructure.ReviewEventListener
 import com.denisolek.cinema.domain.review.model.ReviewAdded
 import com.denisolek.cinema.domain.review.model.ReviewUpdated
+import com.denisolek.cinema.domain.shared.event.DomainEvent
+import mu.KotlinLogging.logger
 import org.springframework.context.event.EventListener
 import org.springframework.stereotype.Component
 
 @Component
-class SpringReviewEventListener(val handler: ReviewEventHandler) : ReviewEventListener {
+class SpringReviewEventListener(private val handler: ReviewEventHandler) : ReviewEventListener {
+    private val log = logger {}
 
     @EventListener
-    override fun handle(event: ReviewAdded) {
-        handler.handle(event)
-    }
-
-    @EventListener
-    override fun handle(event: ReviewUpdated) {
-        handler.handle(event)
+    override fun handle(event: DomainEvent) {
+        log.debug { "Received $event" }
+        when (event) {
+            is ReviewAdded -> handler.handle(event)
+            is ReviewUpdated -> handler.handle(event)
+        }
     }
 }

@@ -1,11 +1,12 @@
-package com.denisolek.cinema.infrastructure.persistance.mongo
+package com.denisolek.cinema.infrastructure.persistence.mongo
 
 import arrow.core.Either
 import arrow.core.Either.Companion.catch
 import com.denisolek.cinema.domain.readmodel.infrastructure.MovieDetailsRepository
 import com.denisolek.cinema.domain.readmodel.model.MovieDetails
 import com.denisolek.cinema.domain.shared.IOError
-import com.denisolek.cinema.infrastructure.persistance.mongo.MongoClientFactory.mongodb
+import com.denisolek.cinema.infrastructure.persistence.mongo.MongoClientFactory.mongodb
+import com.denisolek.cinema.infrastructure.persistence.mongo.MongoCollections.MOVIE_DETAILS
 import mu.KotlinLogging.logger
 import org.bson.codecs.pojo.annotations.BsonId
 import org.litote.kmongo.findOneById
@@ -16,7 +17,7 @@ import java.time.Instant
 
 class MongoMovieDetailsRepository : MovieDetailsRepository {
     private val log = logger {}
-    private val collection = mongodb().getCollection<MovieDetailsDocument>("MovieDetails")
+    private val collection = mongodb().getCollection<MovieDetailsDocument>(MOVIE_DETAILS)
 
     override fun save(movie: MovieDetails): Either<IOError, Unit> = catch {
         collection.save(movie.toDocument())
@@ -46,7 +47,7 @@ data class MovieDetailsDocument(
     val runtime: Long,
 )
 
-fun MovieDetails.toDocument() = MovieDetailsDocument(
+private fun MovieDetails.toDocument() = MovieDetailsDocument(
     id = id,
     title = title,
     description = description,
@@ -59,7 +60,7 @@ fun MovieDetails.toDocument() = MovieDetailsDocument(
     runtime = runtime.toMinutes()
 )
 
-fun MovieDetailsDocument.toDomain() = MovieDetails(
+private fun MovieDetailsDocument.toDomain() = MovieDetails(
     id = id,
     title = title,
     description = description,

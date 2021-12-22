@@ -7,8 +7,8 @@ import com.denisolek.cinema.domain.readmodel.infrastructure.ShowScheduleReposito
 import com.denisolek.cinema.domain.review.infrastructure.ReviewRepository
 import com.denisolek.cinema.domain.show.infrastructure.ShowRepository
 import com.denisolek.cinema.infrastructure.ApplicationProperties
-import com.denisolek.cinema.infrastructure.persistance.inmemory.*
-import com.denisolek.cinema.infrastructure.persistance.mongo.*
+import com.denisolek.cinema.infrastructure.persistence.inmemory.*
+import com.denisolek.cinema.infrastructure.persistence.mongo.*
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 

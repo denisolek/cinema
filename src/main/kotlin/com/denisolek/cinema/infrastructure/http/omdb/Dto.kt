@@ -16,7 +16,7 @@ data class OMDbMovieResponse(
     val imdbVotes: String,
     val imdbID: String,
     @JsonProperty("Runtime")
-    val runtime: String
+    val runtime: String,
 ) {
     fun toMovieData(): MovieData = MovieData(
         id = imdbID,

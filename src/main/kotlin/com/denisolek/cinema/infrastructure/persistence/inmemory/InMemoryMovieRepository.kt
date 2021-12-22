@@ -1,4 +1,4 @@
-package com.denisolek.cinema.infrastructure.persistance.inmemory
+package com.denisolek.cinema.infrastructure.persistence.inmemory
 
 import arrow.core.Either
 import arrow.core.computations.either.eager
@@ -16,17 +16,15 @@ class InMemoryMovieRepository : MovieRepository {
     private val movies: MutableMap<MovieId, Movie> = mutableMapOf()
 
     override fun save(movie: Movie): Either<IOError, Unit> = eager {
+        log.info { "Saving $movie" }
         movies[movie.id] = movie
-        log.info("Saved $movie")
     }
 
-    override fun find(movieId: MovieId): Either<IOError, Movie> {
-        return movies[movieId]?.right() ?: NotFound(movieId.value).left()
-    }
+    override fun find(movieId: MovieId): Either<IOError, Movie> =
+        movies[movieId]?.right() ?: NotFound(movieId.value).left()
 
-    override fun findAll(): Either<IOError, List<Movie>> {
-        return movies.values.toList().right()
-    }
+    override fun findAll(): Either<IOError, List<Movie>> =
+        movies.values.toList().right()
 
     fun clear() = movies.clear()
 }

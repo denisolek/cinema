@@ -1,4 +1,4 @@
-package com.denisolek.cinema.infrastructure.persistance.inmemory
+package com.denisolek.cinema.infrastructure.persistence.inmemory
 
 import arrow.core.Either
 import arrow.core.computations.either.eager
@@ -17,14 +17,14 @@ class InMemoryShowRepository : ShowRepository {
     private val log = KotlinLogging.logger {}
     private val shows: MutableMap<ShowId, Show> = mutableMapOf()
 
-    override fun save(show: Show): Either<IOError, Unit> {
+    override fun save(show: Show): Either<IOError, Unit> = eager {
+        log.info { "Saving $show" }
         shows[show.id] = show
-        return Unit.right()
     }
 
     // TODO use different model in real db repository to optimize requests
-    override fun notContainsOverlappingShow(newStart: Instant, newEnd: Instant): Either<IOError, Boolean> {
-        return shows.values.any {
+    override fun notContainsOverlappingShow(newStart: Instant, newEnd: Instant): Either<IOError, Boolean> =
+        shows.values.any {
             val existingStart = it.showtime.start
             val existingEnd = it.showtime.end
             existingStart.isBeforeOrEqual(newEnd) && existingEnd.isAfterOrEqual(newStart)
@@ -32,15 +32,12 @@ class InMemoryShowRepository : ShowRepository {
             if (it) DataIntegrityViolation("overlapping shows").left()
             else true.right()
         }
-    }
 
-    override fun findAll(): Either<IOError, List<Show>> {
-        return shows.values.toList().right()
-    }
+    override fun findAll(): Either<IOError, List<Show>> =
+        shows.values.toList().right()
 
-    override fun find(showId: ShowId): Either<IOError, Show> {
-        return shows[showId]?.right() ?: NotFound("${showId.value}").left()
-    }
+    override fun find(showId: ShowId): Either<IOError, Show> =
+        shows[showId]?.right() ?: NotFound("${showId.value}").left()
 
     override fun remove(showId: ShowId): Either<IOError, Unit> = eager {
         shows.remove(showId)

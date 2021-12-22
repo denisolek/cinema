@@ -15,7 +15,7 @@ import com.denisolek.cinema.domain.readmodel.ShowScheduleProjection
 import com.denisolek.cinema.domain.shared.IOError.NotFound
 import com.denisolek.cinema.domain.shared.ShowId
 import com.denisolek.cinema.domain.show.model.ShowRemoved
-import com.denisolek.cinema.infrastructure.persistance.inmemory.InMemoryShowScheduleRepository
+import com.denisolek.cinema.infrastructure.persistence.inmemory.InMemoryShowScheduleRepository
 import io.kotest.assertions.arrow.core.shouldBeLeft
 import io.kotest.assertions.arrow.core.shouldBeRight
 import io.kotest.core.spec.style.FunSpec

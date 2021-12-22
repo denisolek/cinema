@@ -15,12 +15,12 @@ import com.denisolek.cinema.domain.shared.event.DomainEventPublisher
 class ReviewFacade(
     private val repository: ReviewRepository,
     private val movieFacade: MovieFacade,
-    private val eventPublisher: DomainEventPublisher
+    private val eventPublisher: DomainEventPublisher,
 ) {
 
     fun addReview(command: AddReview): Either<Failure, Unit> = eager {
         command.authentication.sufficientFor(MOVIEGOER).bind()
-        movieFacade.movieExists(command.movieId).bind()
+        movieFacade.ensureMovieExists(command.movieId).bind()
         val existingReview = repository.find(command.authentication.id, command.movieId)
         val result = existingReview.fold(
             ifLeft = {

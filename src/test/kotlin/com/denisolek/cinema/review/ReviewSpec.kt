@@ -19,7 +19,7 @@ import com.denisolek.cinema.domain.shared.ReviewId
 import com.denisolek.cinema.domain.shared.ValidationError.StarsValidationError.StarsOutOfRange
 import com.denisolek.cinema.domain.shared.event.DomainEvent
 import com.denisolek.cinema.domain.shared.event.DomainEventPublisher
-import com.denisolek.cinema.infrastructure.persistance.inmemory.InMemoryReviewRepository
+import com.denisolek.cinema.infrastructure.persistence.inmemory.InMemoryReviewRepository
 import com.denisolek.cinema.utils.rightValue
 import io.kotest.assertions.arrow.core.shouldBeLeft
 import io.kotest.assertions.arrow.core.shouldBeRight
@@ -45,7 +45,7 @@ class ReviewSpec : DescribeSpec({
     beforeContainer {
         repository.clear()
         clearAllMocks()
-        every { movieFacade.movieExists(any()) } answers { true.right() }
+        every { movieFacade.ensureMovieExists(any()) } answers { Unit.right() }
     }
 
     describe("Reviewing a movie") {
@@ -69,12 +69,12 @@ class ReviewSpec : DescribeSpec({
 
     describe("Can't review a movie") {
         it("when it doesn't exist") {
-            every { movieFacade.movieExists(any()) } answers { NotFound("").left() }
+            every { movieFacade.ensureMovieExists(any()) } answers { NotFound("").left() }
             facade.addReview(defaultAddReview)
                 .shouldBeLeft()
                 .shouldBeTypeOf<NotFound>()
         }
-        every { movieFacade.movieExists(any()) } answers { true.right() }
+        every { movieFacade.ensureMovieExists(any()) } answers { Unit.right() }
         it("if given stars are out of range") {
             facade.addReview(defaultAddReview.copy(stars = 6))
                 .shouldBeLeft()

@@ -8,7 +8,6 @@ import com.denisolek.cinema.domain.movie.model.ReleaseDate.Companion.releaseDate
 import com.denisolek.cinema.domain.movie.model.Runtime.Companion.runtime
 import com.denisolek.cinema.domain.shared.Failure
 import com.denisolek.cinema.domain.shared.event.DomainEvent
-import java.time.Duration
 import java.time.Instant
 import java.util.*
 import java.util.UUID.randomUUID
@@ -22,7 +21,7 @@ data class MovieLoaded(
     val awards: String,
     val imdbRating: Double,
     val imdbVotes: Int,
-    val runtime: Duration
+    val runtime: Long,
 ) : DomainEvent {
     companion object {
         fun movieLoaded(movie: MovieData): Either<Failure, MovieLoaded> = eager {
@@ -35,7 +34,7 @@ data class MovieLoaded(
                 awards = movie.awards,
                 imdbRating = imdbRating.rating,
                 imdbVotes = imdbRating.votes,
-                runtime = runtime(movie.runtime).bind().value
+                runtime = runtime(movie.runtime).bind().minutes
             )
         }
     }

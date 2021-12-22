@@ -17,7 +17,7 @@ abstract class HttpClientProperties(
     val basePort: Int,
     val timeout: TimeoutProperties,
     @NestedConfigurationProperty
-    val retry: RetryProperties
+    val retry: RetryProperties,
 ) {
     fun prepareClient(): HttpClient = HttpClient(CIO) {
         install(HttpTimeout) {
@@ -41,5 +41,5 @@ abstract class HttpClientProperties(
 class TimeoutProperties(
     val request: Duration = ofMillis(800),
     val connect: Duration = ofMillis(600),
-    val socket: Duration = ofMillis(600)
+    val socket: Duration = ofMillis(600),
 )

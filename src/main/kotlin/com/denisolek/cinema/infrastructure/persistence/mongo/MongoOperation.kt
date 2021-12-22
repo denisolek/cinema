@@ -1,4 +1,4 @@
-package com.denisolek.cinema.infrastructure.persistance.mongo
+package com.denisolek.cinema.infrastructure.persistence.mongo
 
 import com.denisolek.cinema.domain.shared.IOError.*
 import com.mongodb.*
@@ -6,16 +6,19 @@ import mu.KLogger
 
 fun Throwable.mapToMongoFailure(resource: String) = when (this) {
     is NotFoundException -> NotFound(resource)
+
     is MongoBulkWriteException,
     is MongoWriteException,
     is MongoWriteConcernException,
     is DataIntegrityException,
     -> DataIntegrityViolation(resource)
+
     is MongoExecutionTimeoutException,
     is MongoTimeoutException,
     is MongoSocketReadTimeoutException,
     is MongoServerUnavailableException,
     -> Unavailable(resource)
+
     else -> UnknownFailure(resource)
 }
 

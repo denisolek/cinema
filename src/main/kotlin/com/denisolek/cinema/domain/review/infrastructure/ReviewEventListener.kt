@@ -1,9 +1,7 @@
 package com.denisolek.cinema.domain.review.infrastructure
 
-import com.denisolek.cinema.domain.review.model.ReviewAdded
-import com.denisolek.cinema.domain.review.model.ReviewUpdated
+import com.denisolek.cinema.domain.shared.event.DomainEvent
 
 interface ReviewEventListener {
-    fun handle(event: ReviewAdded)
-    fun handle(event: ReviewUpdated)
+    fun handle(event: DomainEvent)
 }

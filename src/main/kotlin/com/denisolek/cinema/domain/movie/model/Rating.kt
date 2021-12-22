@@ -8,7 +8,7 @@ import mu.KotlinLogging.logger
 
 data class Rating private constructor(
     val rating: Double,
-    val votes: Int
+    val votes: Int,
 ) {
     companion object {
         private val log = logger {}
