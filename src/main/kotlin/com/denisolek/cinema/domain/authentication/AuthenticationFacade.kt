@@ -6,5 +6,6 @@ import com.denisolek.cinema.domain.shared.AuthenticationError
 import com.denisolek.cinema.domain.shared.AuthenticationError.Unauthorized
 
 class AuthenticationFacade(private val repository: AuthenticationRepository) {
-    fun authenticate(token: String): Either<AuthenticationError, Authentication> = repository.find(token).mapLeft { Unauthorized() }
+    fun authenticate(token: String): Either<AuthenticationError, Authentication> =
+        repository.find(token.substringAfter("Bearer ")).mapLeft { Unauthorized() }
 }

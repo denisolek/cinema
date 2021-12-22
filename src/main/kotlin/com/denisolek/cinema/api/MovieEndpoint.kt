@@ -13,10 +13,13 @@ import com.denisolek.cinema.domain.review.ReviewFacade
 import com.denisolek.cinema.domain.shared.Failure
 import com.denisolek.cinema.domain.shared.MovieId
 import com.denisolek.cinema.infrastructure.ApplicationProperties
+import io.swagger.v3.oas.annotations.Operation
+import io.swagger.v3.oas.annotations.Parameter
 import io.swagger.v3.oas.annotations.media.Content
 import io.swagger.v3.oas.annotations.media.Schema
 import io.swagger.v3.oas.annotations.responses.ApiResponse
 import io.swagger.v3.oas.annotations.responses.ApiResponses
+import io.swagger.v3.oas.annotations.security.SecurityRequirement
 import org.springframework.http.HttpHeaders.AUTHORIZATION
 import org.springframework.http.HttpStatus.OK
 import org.springframework.http.MediaType.APPLICATION_JSON_VALUE
@@ -53,7 +56,9 @@ class MovieEndpoint(
     )
 
     @PostMapping
-    fun load(@RequestHeader(AUTHORIZATION) authorization: String) = eager<Failure, Unit> {
+    @Operation(security = [SecurityRequirement(name = "bearerAuth")])
+    @ApiResponse(responseCode = "200", description = "Movies loaded from external source")
+    fun load(@Parameter(hidden = true)  @RequestHeader(AUTHORIZATION) authorization: String) = eager<Failure, Unit> {
         val authentication = authenticationFacade.authenticate(authorization).bind()
         properties.supportedMovies
             .map { MovieId(it) }
@@ -65,10 +70,11 @@ class MovieEndpoint(
 
     @PostMapping("/{movieId}/reviews")
     @ApiResponses(
-        ApiResponse(responseCode = "201", description = "Review added"),
+        ApiResponse(responseCode = "200", description = "Review added"),
         ApiResponse(responseCode = "404", description = "Movie not found"))
+    @Operation(security = [SecurityRequirement(name = "bearerAuth")])
     fun review(
-        @RequestHeader(AUTHORIZATION) authorization: String,
+        @Parameter(hidden = true) @RequestHeader(AUTHORIZATION) authorization: String,
         @PathVariable movieId: String,
         @RequestBody body: ReviewRequest
     ) = eager<Failure, Unit> {

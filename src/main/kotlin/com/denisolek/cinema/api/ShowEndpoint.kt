@@ -11,10 +11,13 @@ import com.denisolek.cinema.domain.show.AddShow
 import com.denisolek.cinema.domain.show.RemoveShow
 import com.denisolek.cinema.domain.show.ShowFacade
 import com.denisolek.cinema.domain.show.UpdateShow
+import io.swagger.v3.oas.annotations.Operation
+import io.swagger.v3.oas.annotations.Parameter
 import io.swagger.v3.oas.annotations.media.Content
 import io.swagger.v3.oas.annotations.media.Schema
 import io.swagger.v3.oas.annotations.responses.ApiResponse
 import io.swagger.v3.oas.annotations.responses.ApiResponses
+import io.swagger.v3.oas.annotations.security.SecurityRequirement
 import org.springframework.http.HttpHeaders
 import org.springframework.http.HttpStatus.*
 import org.springframework.http.MediaType.APPLICATION_JSON_VALUE
@@ -38,8 +41,9 @@ class ShowEndpoint(
     @ApiResponses(
         ApiResponse(responseCode = "201", description = "Show added"),
         ApiResponse(responseCode = "404", description = "Movie not found"))
+    @Operation(security = [SecurityRequirement(name = "bearerAuth")])
     fun addShow(
-        @RequestHeader(HttpHeaders.AUTHORIZATION) authorization: String,
+        @Parameter(hidden = true) @RequestHeader(HttpHeaders.AUTHORIZATION) authorization: String,
         @RequestBody body: AddShowRequest
     ) = eager<Failure, Unit> {
         val authentication = authenticationFacade.authenticate(authorization).bind()
@@ -53,8 +57,9 @@ class ShowEndpoint(
     @ApiResponses(
         ApiResponse(responseCode = "200", description = "Ok"),
         ApiResponse(responseCode = "404", description = "Show not found"))
+    @Operation(security = [SecurityRequirement(name = "bearerAuth")])
     fun updateShow(
-        @RequestHeader(HttpHeaders.AUTHORIZATION) authorization: String,
+        @Parameter(hidden = true) @RequestHeader(HttpHeaders.AUTHORIZATION) authorization: String,
         @PathVariable showId: UUID,
         @RequestBody body: UpdateShowRequest
     ) = eager<Failure, Unit> {
@@ -69,8 +74,9 @@ class ShowEndpoint(
     @ApiResponses(
         ApiResponse(responseCode = "204", description = "Removed"),
         ApiResponse(responseCode = "404", description = "Show not found"))
+    @Operation(security = [SecurityRequirement(name = "bearerAuth")])
     fun removeShow(
-        @RequestHeader(HttpHeaders.AUTHORIZATION) authorization: String,
+        @Parameter(hidden = true) @RequestHeader(HttpHeaders.AUTHORIZATION) authorization: String,
         @PathVariable showId: UUID
     ) = eager<Failure, Unit> {
         val authentication = authenticationFacade.authenticate(authorization).bind()
